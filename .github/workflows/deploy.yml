@@ -10,16 +10,19 @@ jobs:
     steps:
       - name: Update and Restart
         run: |
-          # 1. Go to the PROD folder (not the temp runner folder)
+          # 1. Load the Environment (Teach the robot where tools are)
+          export PATH="/home/mac/.local/share/fnm:$PATH"
+          eval "`fnm env`"
+
+          # 2. Go to the PROD folder
           cd /home/mac/portfolio
 
-          # 2. Pull latest code
+          # 3. Pull latest code
           git pull origin main
 
-          # 3. Build (Using full path to ensure it finds pnpm)
-          # If pnpm isn't found, we can fix the path later.
+          # 4. Install & Build (Now it will find pnpm!)
           pnpm install --frozen-lockfile
           pnpm build
 
-          # 4. Restart
+          # 5. Restart
           pm2 restart portfolio
