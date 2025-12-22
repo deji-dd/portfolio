@@ -3,6 +3,7 @@ import {
   IconBrandGithub,
   IconBrandLinkedin,
   IconExchange,
+  IconFileDownload,
   IconHome,
   IconTerminal2,
 } from "@tabler/icons-react";
@@ -45,6 +46,13 @@ export function NavigationDock({ isHidden }: { isHidden: boolean }) {
         <IconBrandLinkedin className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
       href: "https://www.linkedin.com/in/ayodeji-buraimoh-1368b9243/",
+    },
+    {
+      title: "Download CV",
+      icon: (
+        <IconFileDownload className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+      ),
+      href: "/cv.pdf",
     },
   ];
 

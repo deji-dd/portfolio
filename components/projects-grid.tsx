@@ -260,6 +260,7 @@ const items = [
       "Bridging modern frontend architectures with robust systems engineering and enterprise infrastructure.",
     header: <StackCloud />,
     className: "md:col-span-3 md:row-span-2 h-full",
+    modalEnabled: false,
   },
 ];
 
@@ -268,6 +269,47 @@ interface ProjectsGridProps {
 }
 
 function ProjectCard({
+  item,
+  onModalStateChange,
+}: {
+  item: (typeof items)[0];
+  onModalStateChange: (isOpen: boolean) => void;
+}) {
+  if (!item.modalEnabled) {
+    return (
+      <div
+        className={cn(
+          "relative h-full w-full flex flex-col group/modal-btn cursor-default",
+          item.className
+        )}
+      >
+        <CardSpotlight
+          radius={100}
+          className={cn(
+            "p-8 border border-white/10 bg-zinc-900/50 backdrop-blur-sm group overflow-hidden h-full",
+            item.className
+          )}
+        >
+          <div className="relative z-20 h-full flex flex-col">
+            <div className="flex-1">{item.header}</div>
+            <div className="mt-4">
+              <h3 className="text-xl font-bold text-white group-hover:text-sky-400 transition-colors">
+                {item.title}
+              </h3>
+              <p className="text-sm text-zinc-400 mt-2">{item.description}</p>
+            </div>
+          </div>
+        </CardSpotlight>
+      </div>
+    );
+  }
+
+  return (
+    <ModalCardContent item={item} onModalStateChange={onModalStateChange} />
+  );
+}
+
+function ModalCardContent({
   item,
   onModalStateChange,
 }: {
@@ -311,22 +353,34 @@ function ProjectCard({
 export function ProjectsGrid({ onModalStateChange }: ProjectsGridProps) {
   return (
     <div id="grid" className="grid grid-cols-1 md:grid-cols-3 gap-4 max-h-280">
-      {items.map((item, i) => (
-        <Modal key={i}>
-          <ProjectCard item={item} onModalStateChange={onModalStateChange} />
-          <ModalBody>
-            {item.modalContent}
-            <ModalFooter className="gap-4">
-              <button className="px-2 py-1 bg-gray-200 text-black dark:bg-white dark:text-black border border-gray-300 rounded-md text-sm w-28">
-                Live Demo
-              </button>
-              <button className="bg-black text-white dark:bg-zinc-900 dark:text-white px-2 py-1 rounded-md border border-white/10 text-sm w-28">
-                Source Code
-              </button>
-            </ModalFooter>
-          </ModalBody>
-        </Modal>
-      ))}
+      {items.map((item, i) => {
+        if (!item.modalEnabled) {
+          return (
+            <ProjectCard
+              key={i}
+              item={item}
+              onModalStateChange={onModalStateChange}
+            />
+          );
+        }
+
+        return (
+          <Modal key={i}>
+            <ProjectCard item={item} onModalStateChange={onModalStateChange} />
+            <ModalBody>
+              {item.modalContent}
+              <ModalFooter className="gap-4">
+                <button className="px-2 py-1 bg-gray-200 text-black dark:bg-white dark:text-black border border-gray-300 rounded-md text-sm w-28">
+                  Live Demo
+                </button>
+                <button className="bg-black text-white dark:bg-zinc-900 dark:text-white px-2 py-1 rounded-md border border-white/10 text-sm w-28">
+                  Source Code
+                </button>
+              </ModalFooter>
+            </ModalBody>
+          </Modal>
+        );
+      })}
     </div>
   );
 }
