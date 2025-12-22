@@ -47,7 +47,7 @@ export function GridOverlay({ className }: { className?: string }) {
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
-            className="h-[1px] w-full bg-gradient-to-r from-transparent via-sky-400/50 to-transparent"
+            className="h-px w-full bg-linear-to-r from-transparent via-sky-400/50 to-transparent"
             animate={{
               opacity: [0.3, 0.8, 0.3],
             }}
@@ -69,7 +69,7 @@ export function GridOverlay({ className }: { className?: string }) {
 
       {/* Scanning Line Effect */}
       <motion.div
-        className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-sky-400/60 to-transparent"
+        className="absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r from-transparent via-sky-400/60 to-transparent"
         animate={{
           y: ["0vh", "100vh"],
         }}

@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "motion/react";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 type Particle = {
@@ -14,6 +14,13 @@ type Particle = {
 const PARTICLE_COUNT = 70;
 
 export function DataFlowParticles({ className }: { className?: string }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
   const particles = useMemo<Particle[]>(() => {
     const rand = (seed: number) => {
       const x = Math.sin(seed) * 10000;
@@ -30,6 +37,8 @@ export function DataFlowParticles({ className }: { className?: string }) {
       };
     });
   }, []);
+
+  if (!mounted) return null;
 
   return (
     <div

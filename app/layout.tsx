@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
@@ -18,10 +18,13 @@ export const metadata: Metadata = {
   title: "Ayodeji B. | Systems Engineer & Next.js Architect",
   description:
     "Portfolio of Ayodeji B. showcasing systems engineering, Next.js architecture, and hybrid cloud projects.",
-  themeColor: "#000000",
   other: {
     "color-scheme": "dark",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0f1a",
 };
 
 export default function RootLayout({
@@ -31,10 +34,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
-      <head>
-        <meta name="theme-color" content="#000000" />
-        <meta name="color-scheme" content="dark" />
-      </head>
+      <head></head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
       >

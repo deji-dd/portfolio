@@ -15,7 +15,16 @@ import {
 } from "@/components/ui/animated-modal";
 import { useEffect } from "react";
 
-const items = [
+type Item = {
+  title: string;
+  description: string;
+  header: React.ReactNode;
+  className?: string;
+  modalEnabled?: boolean; // default to true when undefined
+  modalContent?: React.ReactNode;
+};
+
+const items: Item[] = [
   {
     title: "The Cloud Lab",
     description:
@@ -272,21 +281,24 @@ function ProjectCard({
   item,
   onModalStateChange,
 }: {
-  item: (typeof items)[0];
+  item: Item;
   onModalStateChange: (isOpen: boolean) => void;
 }) {
-  if (!item.modalEnabled) {
+  const modalEnabled = item.modalEnabled !== false;
+
+  if (!modalEnabled) {
     return (
       <div
         className={cn(
-          "relative h-full w-full flex flex-col group/modal-btn cursor-default",
+          "relative w-full flex flex-col group/modal-btn cursor-default",
+
           item.className
         )}
       >
         <CardSpotlight
           radius={100}
           className={cn(
-            "p-8 border border-white/10 bg-zinc-900/50 backdrop-blur-sm group overflow-hidden h-full",
+            "p-8 border border-white/10 bg-zinc-900/50 backdrop-blur-sm group overflow-hidden",
             item.className
           )}
         >
@@ -313,7 +325,7 @@ function ModalCardContent({
   item,
   onModalStateChange,
 }: {
-  item: (typeof items)[0];
+  item: Item;
   onModalStateChange: (isOpen: boolean) => void;
 }) {
   const { open } = useModal();
@@ -325,7 +337,7 @@ function ModalCardContent({
   return (
     <ModalTrigger
       className={cn(
-        "relative h-full w-full flex flex-col group/modal-btn",
+        "relative w-full flex flex-col group/modal-btn h-92",
         item.className
       )}
     >
@@ -352,9 +364,11 @@ function ModalCardContent({
 
 export function ProjectsGrid({ onModalStateChange }: ProjectsGridProps) {
   return (
-    <div id="grid" className="grid grid-cols-1 md:grid-cols-3 gap-4 max-h-280">
+    <div id="grid" className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {items.map((item, i) => {
-        if (!item.modalEnabled) {
+        const modalEnabled = item.modalEnabled !== false;
+
+        if (!modalEnabled) {
           return (
             <ProjectCard
               key={i}
