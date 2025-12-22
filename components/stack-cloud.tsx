@@ -95,8 +95,10 @@ export function StackCloud() {
               href: undefined,
               target: undefined,
               rel: undefined,
-              onClick: (e: React.MouseEvent<HTMLAnchorElement>) =>
-                e.preventDefault(),
+              onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+                e.preventDefault();
+                e.stopPropagation();
+              },
               className: "cursor-pointer",
               style: { fill: "#71717a" }, // Stable grey color
             },

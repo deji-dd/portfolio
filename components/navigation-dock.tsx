@@ -7,8 +7,9 @@ import {
   IconTerminal2,
 } from "@tabler/icons-react";
 import { FloatingDock } from "@/components/ui/floating-dock";
+import { cn } from "@/lib/utils";
 
-export function NavigationDock() {
+export function NavigationDock({ isHidden }: { isHidden: boolean }) {
   const links = [
     {
       title: "Home",
@@ -36,19 +37,26 @@ export function NavigationDock() {
       icon: (
         <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "https://github.com",
+      href: "https://github.com/deji-dd",
     },
     {
       title: "LinkedIn",
       icon: (
         <IconBrandLinkedin className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "https://linkedin.com",
+      href: "https://www.linkedin.com/in/ayodeji-buraimoh-1368b9243/",
     },
   ];
 
   return (
-    <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50">
+    <div
+      className={cn(
+        "fixed bottom-10 left-1/2 -translate-x-1/2 transition-all duration-300",
+        isHidden
+          ? "z-0 opacity-0 pointer-events-none translate-y-10"
+          : "z-50 opacity-100 translate-y-0"
+      )}
+    >
       <FloatingDock items={links} />
     </div>
   );

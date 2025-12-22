@@ -46,10 +46,17 @@ const TreeNode = ({ item, level = 0 }: { item: TreeItem; level?: number }) => {
   const [isOpen, setIsOpen] = useState(level < 1); // Auto-open root
   const isFolder = item.type === "folder";
 
+  const handleToggle = (e: React.MouseEvent) => {
+    if (isFolder) {
+      e.stopPropagation();
+      setIsOpen(!isOpen);
+    }
+  };
+
   return (
     <div className="select-none">
       <div
-        onClick={() => isFolder && setIsOpen(!isOpen)}
+        onClick={handleToggle}
         className={`flex items-center gap-2 py-1 px-2 rounded-md transition-colors cursor-pointer
           ${isFolder ? "hover:bg-white/5" : "hover:bg-blue-500/10"}
         `}

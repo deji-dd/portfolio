@@ -60,7 +60,7 @@ export function LabStatus() {
         </div>
       </div>
 
-      <div className="mt-4">
+      <div className="my-auto">
         <h3 className="text-sm font-semibold text-zinc-200 uppercase tracking-tight">
           MacBook Pro M-Series
         </h3>
