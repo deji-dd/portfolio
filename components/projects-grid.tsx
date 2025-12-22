@@ -14,6 +14,7 @@ import {
   useModal,
 } from "@/components/ui/animated-modal";
 import { useEffect } from "react";
+import { motion } from "motion/react";
 
 type Item = {
   title: string;
@@ -329,6 +330,7 @@ function ModalCardContent({
   onModalStateChange: (isOpen: boolean) => void;
 }) {
   const { open } = useModal();
+  const modalEnabled = item.modalEnabled !== false;
 
   useEffect(() => {
     onModalStateChange(open);
@@ -341,23 +343,37 @@ function ModalCardContent({
         item.className
       )}
     >
-      <CardSpotlight
-        radius={100}
-        className={cn(
-          "p-8 border border-white/10 bg-zinc-900/50 backdrop-blur-sm group overflow-hidden h-full",
-          item.className
-        )}
+      <motion.div
+        whileHover={{ y: -8, scale: 1.01 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="h-full w-full"
       >
-        <div className="relative z-20 h-full flex flex-col">
-          <div className="flex-1">{item.header}</div>
-          <div className="mt-4">
-            <h3 className="text-xl font-bold text-white group-hover:text-sky-400 transition-colors">
-              {item.title}
-            </h3>
-            <p className="text-sm text-zinc-400 mt-2">{item.description}</p>
+        <CardSpotlight
+          radius={150} // Increased for more visibility
+          className={cn(
+            "p-8 border border-white/5 bg-zinc-900/40 backdrop-blur-md group overflow-hidden h-full transition-all duration-500",
+            "hover:border-sky-500/40 hover:shadow-[0_0_30px_-10px_rgba(56,189,248,0.2)]",
+            item.className
+          )}
+        >
+          <div className="relative z-20 h-full flex flex-col">
+            <div className="flex-1">{item.header}</div>
+            <div className="mt-4">
+              <div className="flex items-center gap-2">
+                <h3 className="text-xl font-bold text-white group-hover:text-sky-400 transition-colors">
+                  {item.title}
+                </h3>
+                {modalEnabled && (
+                  <div className="h-1.5 w-1.5 rounded-full bg-sky-500 animate-pulse opacity-0 group-hover:opacity-100 transition-opacity" />
+                )}
+              </div>
+              <p className="text-sm text-zinc-500 mt-2 group-hover:text-zinc-400 transition-colors">
+                {item.description}
+              </p>
+            </div>
           </div>
-        </div>
-      </CardSpotlight>
+        </CardSpotlight>
+      </motion.div>
     </ModalTrigger>
   );
 }

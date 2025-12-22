@@ -6,7 +6,7 @@ export function GridOverlay({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "fixed inset-0 pointer-events-none overflow-hidden",
+        "fixed inset-0 h-screen w-screen pointer-events-none overflow-hidden",
         className
       )}
     >
