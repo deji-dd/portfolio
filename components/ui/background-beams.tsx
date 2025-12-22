@@ -94,6 +94,7 @@ export const BackgroundBeams = React.memo(
           "absolute inset-0 flex h-screen w-full items-center justify-center overflow-hidden",
           className
         )}
+        style={{ willChange: "transform" }}
       >
         <svg
           className="pointer-events-none absolute h-screen w-full"
@@ -105,6 +106,7 @@ export const BackgroundBeams = React.memo(
           xmlns="http://www.w3.org/2000/svg"
           style={{
             transform: "translate(0, -20%)",
+            willChange: "auto",
           }}
         >
           <path
@@ -121,6 +123,7 @@ export const BackgroundBeams = React.memo(
               stroke={`url(#linearGradient-${index})`}
               strokeOpacity={gradientSettings[index].opacityStr}
               strokeWidth="0.5"
+              style={{ willChange: "opacity" }}
             ></motion.path>
           ))}
           <defs>
