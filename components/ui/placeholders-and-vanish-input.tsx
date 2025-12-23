@@ -8,10 +8,12 @@ export function PlaceholdersAndVanishInput({
   placeholders,
   onChange,
   onSubmit,
+  initialValue,
 }: {
   placeholders: string[];
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  initialValue?: string;
 }) {
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
 
@@ -50,6 +52,27 @@ export function PlaceholdersAndVanishInput({
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState("");
   const [animating, setAnimating] = useState(false);
+
+  // Restore value on mount when returning to edit
+  const initializedRef = useRef(false);
+  useEffect(() => {
+    if (!initializedRef.current) {
+      if (typeof initialValue === "string") {
+        setValue(initialValue);
+        // Place caret at the end after value hydrates
+        requestAnimationFrame(() => {
+          if (inputRef.current) {
+            const len = initialValue.length;
+            inputRef.current.focus();
+            try {
+              inputRef.current.setSelectionRange(len, len);
+            } catch {}
+          }
+        });
+      }
+      initializedRef.current = true;
+    }
+  }, [initialValue]);
 
   const draw = useCallback(() => {
     if (!inputRef.current) return;

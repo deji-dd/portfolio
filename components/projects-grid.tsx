@@ -306,10 +306,12 @@ function ProjectCard({
           <div className="relative z-20 h-full flex flex-col">
             <div className="flex-1">{item.header}</div>
             <div className="mt-4">
-              <h3 className="text-xl font-bold text-white group-hover:text-sky-400 transition-colors">
+              <h3 className="text-left text-xl font-bold text-white group-hover:text-sky-400 transition-colors">
                 {item.title}
               </h3>
-              <p className="text-sm text-zinc-400 mt-2">{item.description}</p>
+              <p className="text-left text-sm text-zinc-400 mt-2">
+                {item.description}
+              </p>
             </div>
           </div>
         </CardSpotlight>
@@ -339,7 +341,7 @@ function ModalCardContent({
   return (
     <ModalTrigger
       className={cn(
-        "relative w-full flex flex-col group/modal-btn h-92",
+        "relative w-full flex flex-col group/modal-btn h-100",
         item.className
       )}
     >
@@ -360,14 +362,14 @@ function ModalCardContent({
             <div className="flex-1">{item.header}</div>
             <div className="mt-4">
               <div className="flex items-center gap-2">
-                <h3 className="text-xl font-bold text-white group-hover:text-sky-400 transition-colors">
+                <h3 className="text-left text-xl font-bold text-white group-hover:text-sky-400 transition-colors">
                   {item.title}
                 </h3>
                 {modalEnabled && (
                   <div className="h-1.5 w-1.5 rounded-full bg-sky-500 animate-pulse opacity-0 group-hover:opacity-100 transition-opacity" />
                 )}
               </div>
-              <p className="text-sm text-zinc-500 mt-2 group-hover:text-zinc-400 transition-colors">
+              <p className="text-left text-sm text-zinc-500 mt-2 group-hover:text-zinc-400 transition-colors">
                 {item.description}
               </p>
             </div>

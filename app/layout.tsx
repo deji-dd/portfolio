@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ayodeji B. | Systems Engineer & Next.js Architect",
+  title: "Ayodeji B. | Systems Architect",
   description:
-    "Portfolio of Ayodeji B. showcasing systems engineering, Next.js architecture, and hybrid cloud projects.",
+    "Systems Engineer & Next.js Architect building high-performance digital infrastructure.",
   other: {
     "color-scheme": "dark",
   },

@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { IconLayoutNavbarCollapse } from "@tabler/icons-react";
 import {
@@ -9,7 +10,8 @@ import {
   useTransform,
 } from "motion/react";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 export const FloatingDock = ({
   items,
@@ -36,13 +38,21 @@ const FloatingDockMobile = ({
   className?: string;
 }) => {
   const [open, setOpen] = useState(false);
-  return (
-    <div className={cn("relative block md:hidden", className)}>
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  const content = (
+    <div
+      className={cn("fixed bottom-4 right-4 z-50 block md:hidden", className)}
+    >
       <AnimatePresence>
         {open && (
           <motion.div
             layoutId="nav"
-            className="absolute inset-x-0 bottom-full mb-2 flex flex-col gap-2"
+            className="absolute right-0 bottom-full mb-2 flex flex-col gap-2 items-end"
           >
             {items.map((item, idx) => (
               <motion.div
@@ -81,6 +91,9 @@ const FloatingDockMobile = ({
       </button>
     </div>
   );
+
+  if (!mounted) return null;
+  return createPortal(content, document.body);
 };
 
 const FloatingDockDesktop = ({

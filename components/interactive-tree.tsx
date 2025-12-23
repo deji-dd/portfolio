@@ -38,7 +38,7 @@ const treeData: TreeItem = {
         { name: "ssl-renewal.sh", type: "file" },
       ],
     },
-    { name: "erp-escalations.json", type: "file" },
+    { name: "escalations.json", type: "file" },
   ],
 };
 

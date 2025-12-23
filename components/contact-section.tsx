@@ -24,7 +24,7 @@ export function ContactSection() {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center pb-40 relative z-30">
+    <section className="flex flex-col items-center justify-center pb-20 relative z-30">
       <h2 className="text-3xl md:text-5xl text-white font-bold tracking-tighter text-center">
         Initialize{" "}
         <span className="text-sky-500 underline decoration-sky-500/30 underline-offset-8">
@@ -45,6 +45,7 @@ export function ContactSection() {
             >
               <PlaceholdersAndVanishInput
                 placeholders={placeholders}
+                initialValue={initialMessage}
                 onChange={(e) => setInitialMessage(e.target.value)}
                 onSubmit={onSubmit}
               />
