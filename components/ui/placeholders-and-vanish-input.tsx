@@ -50,27 +50,26 @@ export function PlaceholdersAndVanishInput({
     { x: number; y: number; r: number; color: string }[]
   >([]);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(() => initialValue ?? "");
   const [animating, setAnimating] = useState(false);
 
   // Restore value on mount when returning to edit
   const initializedRef = useRef(false);
   useEffect(() => {
-    if (!initializedRef.current) {
-      if (typeof initialValue === "string") {
-        setValue(initialValue);
-        // Place caret at the end after value hydrates
-        requestAnimationFrame(() => {
-          if (inputRef.current) {
-            const len = initialValue.length;
-            inputRef.current.focus();
-            try {
-              inputRef.current.setSelectionRange(len, len);
-            } catch {}
-          }
-        });
-      }
-      initializedRef.current = true;
+    if (initializedRef.current) return;
+    initializedRef.current = true;
+
+    if (typeof initialValue === "string") {
+      // Place caret at the end after value hydrates
+      requestAnimationFrame(() => {
+        if (inputRef.current) {
+          const len = initialValue.length;
+          inputRef.current.focus();
+          try {
+            inputRef.current.setSelectionRange(len, len);
+          } catch {}
+        }
+      });
     }
   }, [initialValue]);
 

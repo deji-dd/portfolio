@@ -1,4 +1,5 @@
 "use client";
+import { memo, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { ActivityFeed } from "@/components/activity-feed";
 import { InteractiveTree } from "@/components/interactive-tree";
@@ -13,7 +14,6 @@ import {
   ModalTrigger,
   useModal,
 } from "@/components/ui/animated-modal";
-import { useEffect } from "react";
 import { motion } from "motion/react";
 
 type Item = {
@@ -278,7 +278,7 @@ interface ProjectsGridProps {
   onModalStateChange: (isOpen: boolean) => void;
 }
 
-function ProjectCard({
+const ProjectCard = memo(function ProjectCard({
   item,
   onModalStateChange,
 }: {
@@ -322,9 +322,9 @@ function ProjectCard({
   return (
     <ModalCardContent item={item} onModalStateChange={onModalStateChange} />
   );
-}
+});
 
-function ModalCardContent({
+const ModalCardContent = memo(function ModalCardContent({
   item,
   onModalStateChange,
 }: {
@@ -378,18 +378,18 @@ function ModalCardContent({
       </motion.div>
     </ModalTrigger>
   );
-}
+});
 
 export function ProjectsGrid({ onModalStateChange }: ProjectsGridProps) {
   return (
     <div id="grid" className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {items.map((item, i) => {
+      {items.map((item) => {
         const modalEnabled = item.modalEnabled !== false;
 
         if (!modalEnabled) {
           return (
             <ProjectCard
-              key={i}
+              key={item.title}
               item={item}
               onModalStateChange={onModalStateChange}
             />
@@ -397,15 +397,21 @@ export function ProjectsGrid({ onModalStateChange }: ProjectsGridProps) {
         }
 
         return (
-          <Modal key={i}>
+          <Modal key={item.title}>
             <ProjectCard item={item} onModalStateChange={onModalStateChange} />
             <ModalBody>
               {item.modalContent}
               <ModalFooter className="gap-4">
-                <button className="px-2 py-1 bg-gray-200 text-black dark:bg-white dark:text-black border border-gray-300 rounded-md text-sm w-28">
+                <button
+                  aria-label="Open live demo"
+                  className="px-2 py-1 bg-gray-200 text-black dark:bg-white dark:text-black border border-gray-300 rounded-md text-sm w-28"
+                >
                   Live Demo
                 </button>
-                <button className="bg-black text-white dark:bg-zinc-900 dark:text-white px-2 py-1 rounded-md border border-white/10 text-sm w-28">
+                <button
+                  aria-label="View source code"
+                  className="bg-black text-white dark:bg-zinc-900 dark:text-white px-2 py-1 rounded-md border border-white/10 text-sm w-28"
+                >
                   Source Code
                 </button>
               </ModalFooter>
