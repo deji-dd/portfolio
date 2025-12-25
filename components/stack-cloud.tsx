@@ -57,7 +57,7 @@ export const cloudProps: Omit<ICloud, "children"> & { options: CloudOptions } =
       reverse: true,
       depth: 1,
       wheelZoom: false,
-      imageScale: 2,
+      imageScale: 3,
       activeCursor: "default",
       tooltipDelay: 0,
       outlineColour: "#0000",
@@ -66,7 +66,7 @@ export const cloudProps: Omit<ICloud, "children"> & { options: CloudOptions } =
       freezeDecel: false,
       dragControl: true,
       initial: [0.1, -0.1],
-      repeatTags: 1,
+      repeatTags: 0,
     },
   };
 
@@ -87,7 +87,7 @@ export function StackCloud() {
         {icons.map((icon) =>
           renderSimpleIcon({
             icon,
-            size: 42,
+            size: 24,
             bgHex: "#000",
             fallbackHex: "#fff",
             minContrastRatio: 1,
@@ -101,6 +101,7 @@ export function StackCloud() {
               },
               className: "cursor-pointer",
               style: { fill: "#71717a" }, // Stable grey color
+              tabIndex: -1, // Prevent focus to avoid page jump on load
             },
           })
         )}

@@ -1,95 +1,107 @@
 "use client";
-"use client";
 import React, { useEffect, useState } from "react";
 import { motion } from "motion/react";
+import { cn } from "@/lib/utils";
+
+const LAB_URL = "https://lab.ayodejib.dev";
 
 export function LabStatus() {
-  const [latencyMs, setLatencyMs] = useState(22);
-  const SCAN_DURATION_MS = 3000;
+  const [isOnline, setIsOnline] = useState(false); // Default to offline/intermittent
+  const [latency, setLatency] = useState<number | null>(null);
+  const [waveformHeights] = useState(() =>
+    [...Array(20)].map(() => Math.floor(Math.random() * 100))
+  );
+
+  // The "Ping" Effect
   useEffect(() => {
-    const id = setInterval(() => {
-      setLatencyMs((prev) => {
-        const delta = (Math.random() - 0.5) * 4; // gentle jitter
-        const next = Math.max(15, Math.min(40, Math.round(prev + delta)));
-        return next;
-      });
-    }, SCAN_DURATION_MS);
-    return () => clearInterval(id);
+    const checkStatus = async () => {
+      // If you don't have a URL yet, we simulate "Intermittent" availability
+      // Or we can try to fetch if you provide the URL
+      if (!LAB_URL.includes("your-lab-url")) {
+        try {
+          const start = Date.now();
+          // A simple HEAD request to check availability
+          await fetch(LAB_URL, { method: "HEAD", mode: "no-cors" });
+          setLatency(Date.now() - start);
+          setIsOnline(true);
+        } catch {
+          setIsOnline(false);
+        }
+      } else {
+        // Simulation Mode for Demo
+        const randomState = Math.random() > 0.3; // 70% chance of being "Online"
+        setIsOnline(randomState);
+        setLatency(Math.floor(Math.random() * 50) + 10);
+      }
+    };
+
+    checkStatus();
+    const interval = setInterval(checkStatus, 30000); // Check every 30s
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <motion.div
-      className="relative flex flex-col h-full justify-between p-2 overflow-hidden"
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      whileHover={{ y: -2 }}
-    >
-      <motion.div
-        className="pointer-events-none absolute top-0 left-0 h-0.5 w-full bg-linear-to-r from-transparent via-green-400/60 to-transparent"
-        animate={{ opacity: [0.35, 1, 0.35] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(0,0,0,0), rgba(34,197,94,0.6), rgba(0,0,0,0))",
-        }}
-      />
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-4 p-2 font-mono text-[10px]">
+      <div className="flex justify-between items-center border-b border-white/5 pb-2">
         <div className="flex items-center gap-2">
-          <span className="relative flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-          </span>
-          <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">
-            Lab Online
+          <div
+            className={cn(
+              "h-2 w-2 rounded-full animate-pulse",
+              isOnline ? "bg-green-500" : "bg-amber-500"
+            )}
+          />
+          <span className="text-zinc-500">cloud-lab</span>
+        </div>
+        <span
+          className={cn(
+            "tracking-tighter",
+            isOnline ? "text-sky-500" : "text-zinc-600"
+          )}
+        >
+          {isOnline ? "ONLINE" : "STANDBY"}
+        </span>
+      </div>
+
+      <div className="grid grid-cols-3 gap-2 opacity-90">
+        <div className="flex flex-col gap-1">
+          <span className="text-zinc-600 text-[8px]">STATUS</span>
+          <span className={isOnline ? "text-green-400" : "text-amber-400"}>
+            {isOnline ? "ACTIVE" : "SLEEP"}
           </span>
         </div>
-        <div className="flex items-center gap-4">
-          <span className="text-[10px] font-mono text-zinc-600 italic">
-            via Tailscale
+        <div className="flex flex-col gap-1">
+          <span className="text-zinc-600 text-[8px]">UPTIME</span>
+          <span className="text-zinc-300">{isOnline ? "99.4%" : "PAUSED"}</span>
+        </div>
+        <div className="flex flex-col gap-1">
+          <span className="text-zinc-600 text-[8px]">LATENCY</span>
+          <span className={isOnline ? "text-sky-400" : "text-zinc-600"}>
+            {isOnline ? `${latency}ms` : "--"}
           </span>
-          <motion.span
-            key={latencyMs}
-            initial={{ opacity: 0, y: -2 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2 }}
-            className="px-2 py-0.5 rounded-sm bg-zinc-800 text-[9px] font-mono text-green-400 border border-white/5"
-          >
-            {latencyMs} ms
-          </motion.span>
         </div>
       </div>
 
-      <div className="my-auto">
-        <h3 className="text-sm font-semibold text-zinc-200 uppercase tracking-tight">
-          MacBook Pro M-Series
-        </h3>
-        <div className="flex flex-wrap gap-2 mt-2">
-          {["OrbStack", "PM2", "Docker"].map((tag, i) => (
-            <motion.span
-              key={tag}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: 0.05 * i,
-                type: "spring",
-                stiffness: 300,
-                damping: 26,
-              }}
-              whileHover={{ scale: 1.03 }}
-              className="px-2 py-0.5 rounded-sm bg-zinc-800 text-[9px] font-mono text-zinc-500 border border-white/5 shadow-[0_0_0_0_rgba(0,0,0,0)] hover:shadow-[0_0_12px_0_rgba(56,239,125,0.15)]"
-            >
-              {tag}
-            </motion.span>
-          ))}
-        </div>
+      {/* Network Activity Visualization */}
+      <div className="h-8 w-full flex items-end gap-0.5 mt-2 opacity-60">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{
+              height: isOnline ? `${Math.max(20, waveformHeights[i])}%` : "10%",
+            }}
+            transition={{
+              duration: 0.3,
+              ease: "easeOut",
+            }}
+            className={cn(
+              "flex-1 rounded-sm",
+              isOnline
+                ? "bg-gradient-to-t from-sky-500 to-sky-400"
+                : "bg-zinc-700"
+            )}
+          />
+        ))}
       </div>
-
-      <div className="mt-auto pt-2 border-t border-white/5">
-        <p className="text-[10px] text-zinc-500 font-mono leading-none">
-          Location: Lagos, NG
-        </p>
-      </div>
-    </motion.div>
+    </div>
   );
 }

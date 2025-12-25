@@ -3,7 +3,6 @@ import { memo, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { ActivityFeed } from "@/components/activity-feed";
 import { InteractiveTree } from "@/components/interactive-tree";
-import { LabStatus } from "@/components/lab-status";
 import { StackCloud } from "@/components/stack-cloud";
 import { CardSpotlight } from "@/components/ui/card-spotlight";
 import {
@@ -15,6 +14,8 @@ import {
   useModal,
 } from "@/components/ui/animated-modal";
 import { motion } from "motion/react";
+import { NetworkMesh } from "./network-mesh";
+import { LabStatus } from "./lab-status";
 
 type Item = {
   title: string;
@@ -30,8 +31,8 @@ const items: Item[] = [
     title: "The Cloud Lab",
     description:
       "Personal infrastructure running on M-series hardware via Tailscale networking.",
-    header: <LabStatus />,
-    className: "md:col-span-1",
+    header: <NetworkMesh />,
+    className: "md:col-span-2",
     modalContent: (
       <ModalContent className="max-w-3xl overflow-y-auto">
         <div className="flex flex-col gap-6 p-6">
@@ -40,65 +41,81 @@ const items: Item[] = [
               The Cloud Lab
             </h4>
             <p className="text-blue-500 font-mono text-[10px] mt-1 uppercase tracking-widest">
-              OrbStack • Ubuntu Linux • PM2 • Tailscale • Remote Orchestration
+              Azure VPS • Ubuntu Linux • Docker • NPM • Portainer • Tailscale
             </p>
           </header>
 
+          <div className="my-6">
+            <h5 className="text-zinc-400 text-xs font-bold uppercase tracking-widest mb-4">
+              Live Telemetry Stream
+            </h5>
+            <div className="p-4 rounded-xl border border-white/10 bg-black/50">
+              {/* We pass the real URL to the status component */}
+              <LabStatus />
+            </div>
+          </div>
+
           <div className="space-y-4">
             <p className="text-zinc-400 text-sm leading-relaxed">
-              My development environment is a high-performance{" "}
-              <span className="text-white">Linux Lab</span> virtualized on Apple
-              Silicon. Unlike standard setups, I manage services directly via{" "}
-              <span className="text-white">PM2</span> for process persistence
-              and monitoring, mimicking production-grade Linux administration.
+              My development environment is a{" "}
+              <span className="text-white">Cloud Lab</span> hosted on an Azure
+              VPS, accessible via a custom subdomain. Using{" "}
+              <span className="text-white">Tailscale</span> mesh networking, all
+              my devices connect securely without exposing ports. Containers are
+              orchestrated via <span className="text-white">Docker</span>, with{" "}
+              <span className="text-white">NPM</span> for reverse proxy and{" "}
+              <span className="text-white">Portainer</span> for container
+              management.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 rounded-xl border border-white/5 bg-zinc-900/30">
               <h5 className="text-zinc-300 text-[10px] uppercase font-bold mb-2">
-                Process Management
+                Container Orchestration
               </h5>
               <p className="text-zinc-500 text-xs">
-                Using <span className="text-blue-400 font-mono">PM2</span> to
-                handle clustering, log management, and automatic restarts for
-                internal tools, ensuring zero-downtime during development.
+                Using <span className="text-blue-400 font-mono">Docker</span> to
+                containerize services, with{" "}
+                <span className="text-blue-400 font-mono">Portainer</span> for
+                visual management and easy container lifecycle control across
+                the lab.
               </p>
             </div>
             <div className="p-4 rounded-xl border border-white/5 bg-zinc-900/30">
               <h5 className="text-zinc-300 text-[10px] uppercase font-bold mb-2">
-                Infrastructure Networking
+                Zero-Trust Networking
               </h5>
               <p className="text-zinc-500 text-xs">
-                Mesh-networking via{" "}
-                <span className="text-blue-400 font-mono">Tailscale</span>{" "}
-                allows secure, SSH-keyless access to this lab from any device,
-                anywhere in the world.
+                All devices connected via{" "}
+                <span className="text-blue-400 font-mono">Tailscale</span> mesh
+                network. No ports exposed—secure access to the Azure VPS lab
+                from any device, anywhere in the world.
               </p>
             </div>
           </div>
 
-          {/* Lab Status Visual */}
+          {/* Docker Containers */}
           <div className="bg-black/50 p-4 rounded-lg border border-white/10 font-mono text-[11px] text-zinc-400">
             <div className="flex items-center gap-2 mb-2 text-blue-500">
               <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-              <span>pm2 list --machine-readable</span>
+              <span>docker ps --format table</span>
             </div>
             <div className="space-y-1">
               <div className="flex justify-between border-b border-white/5 pb-1">
-                <span>App Name</span>
+                <span>Container</span>
                 <span>Status</span>
-                <span>CPU</span>
+                <span>Memory</span>
               </div>
               <div className="flex justify-between text-zinc-500">
-                <span>internal-docs</span>
-                <span className="text-green-500">online</span>
-                <span>0.2%</span>
+                <span>portainer</span>
+                <span className="text-green-500">running</span>
+                <span>45MB</span>
               </div>
               <div className="flex justify-between text-zinc-500">
-                <span>my-portfolio</span>
-                <span className="text-green-500">online</span>
-                <span>0.1%</span>
+                <span>npm-proxy</span>
+                <span className="text-green-500">running</span>
+                <span>32MB</span>
               </div>
             </div>
           </div>
@@ -194,6 +211,7 @@ const items: Item[] = [
       </ModalContent>
     ),
   },
+
   {
     title: "Enterprise Systems",
     description:
@@ -269,7 +287,7 @@ const items: Item[] = [
     description:
       "Bridging modern frontend architectures with robust systems engineering and enterprise infrastructure.",
     header: <StackCloud />,
-    className: "md:col-span-3 md:row-span-2 h-full",
+    className: "md:col-span-2 md:row-span-2",
     modalEnabled: false,
   },
 ];
