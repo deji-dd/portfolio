@@ -10,7 +10,7 @@ export function HeroSection() {
       <motion.h1
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-5xl md:text-8xl font-bold text-white tracking-tighter mb-4"
+        className="text-5xl md:text-8xl font-bold text-white tracking-tighter mb-4 flex items-center gap-2"
       >
         Ayodeji B<span className="text-blue-500">.</span>
       </motion.h1>

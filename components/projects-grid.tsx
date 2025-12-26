@@ -3,7 +3,6 @@ import { ActivityFeed } from "@/components/activity-feed";
 import { InteractiveTree } from "@/components/interactive-tree";
 import { BentoGrid } from "@/components/ui/bento-grid";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
-import { TechStackCard } from "@/components/ui/tech-stack-card";
 import {
   Modal,
   ModalBody,
@@ -14,6 +13,7 @@ import {
 import { NetworkMesh } from "./network-mesh";
 import { LabStatus } from "./lab-status";
 import { HardwareSpecs } from "./hardware-specs";
+import { TechStackDisplay } from "@/components/ui/tech-stack-display";
 
 import {
   IconCpu,
@@ -83,6 +83,14 @@ const items: Item[] = [
     modalEnabled: false,
   },
   {
+    title: "The Hybrid Stack",
+    description: "Frontend & Systems Engineering.",
+    header: <TechStackDisplay />, // Using the new component directly
+    className: "md:col-span-2 md:row-span-2",
+    modalEnabled: false,
+    isCustomCard: true,
+  },
+  {
     title: "Enterprise Systems",
     description: "Admin & modules for ERPNext & HRMS.",
     header: <ActivityFeed />,
@@ -130,14 +138,7 @@ const items: Item[] = [
       </ModalContent>
     ),
   },
-  {
-    title: "The Hybrid Stack",
-    description: "Frontend & Systems Engineering.",
-    header: <TechStackCard />, // Using the new component directly
-    className: "md:col-span-1",
-    modalEnabled: false,
-    isCustomCard: true,
-  },
+
 ];
 
 interface ProjectsGridProps {

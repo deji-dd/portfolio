@@ -3,24 +3,18 @@ import { Timeline } from "@/components/ui/timeline";
 export function SystemLogs() {
   const data = [
     {
-      title: "2025",
+      title: "2023",
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            Optimizing the Cloud Lab and deploying corporate tools.
+            Initial deployments and freelance growth.
           </p>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
-              BUILD: Corporate Invoice Tracker
+              PUBLISH: Glorious Eagles Site
             </div>
             <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
-              PUBLISH: BT Technologies Site
-            </div>
-            <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
-              MOUNT: Custom Azure VPS
-            </div>
-            <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
-              INIT: Portfolio Deployed
+              PUBLISH: Ginoba Foundation
             </div>
           </div>
         </div>
@@ -45,18 +39,24 @@ export function SystemLogs() {
       ),
     },
     {
-      title: "2023",
+      title: "2025",
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            Initial deployments and freelance growth.
+            Optimizing the Cloud Lab and deploying corporate tools.
           </p>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
-              PUBLISH: Glorious Eagles Site
+              BUILD: Corporate Invoice Tracker
             </div>
             <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
-              PUBLISH: Ginoba Foundation
+              PUBLISH: BT Technologies Site
+            </div>
+            <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
+              MOUNT: Custom Azure VPS
+            </div>
+            <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
+              INIT: Portfolio Deployed
             </div>
           </div>
         </div>

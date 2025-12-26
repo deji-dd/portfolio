@@ -21,7 +21,7 @@ type LoadingOverlayProps = {
 
 export function LoadingOverlay({ children }: LoadingOverlayProps) {
   const [hide, setHide] = useState(false);
-  const [logs, setLogs] = useState<string[]>([]);
+  const [logs, setLogs] = useState<string[]>([BOOT_LOGS[0]]);
   const logsEndRef = useRef<HTMLDivElement>(null);
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
@@ -37,14 +37,12 @@ export function LoadingOverlay({ children }: LoadingOverlayProps) {
     }
   }, []);
 
-  // 2. Start typing IMMEDIATELY on mount
+  // 2. Start typing IMMEDIATELY on mount (start from index 1)
   useEffect(() => {
-    let currentLogIndex = 0;
+    let currentLogIndex = 1;
 
-    // Typing interval
-    const interval = setInterval(() => {
+    const typeNextLog = () => {
       if (currentLogIndex >= BOOT_LOGS.length) {
-        clearInterval(interval);
         setIsTypingComplete(true);
         return;
       }
@@ -56,9 +54,14 @@ export function LoadingOverlay({ children }: LoadingOverlayProps) {
         logsEndRef.current.scrollIntoView({ behavior: "smooth" });
       }
 
-    }, 150); // Faster typing speed (150ms) for better UX
+      // Schedule next log with a random variance for realism, but strictly sequential
+      setTimeout(typeNextLog, Math.random() * 50 + 100); // 100-150ms
+    };
 
-    return () => clearInterval(interval);
+    // Start the loop
+    const timeout = setTimeout(typeNextLog, 200);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   // 3. Only hide when BOTH typing is done AND page is loaded
