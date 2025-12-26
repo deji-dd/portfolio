@@ -59,18 +59,7 @@ export function PlaceholdersAndVanishInput({
     if (initializedRef.current) return;
     initializedRef.current = true;
 
-    if (typeof initialValue === "string") {
-      // Place caret at the end after value hydrates
-      requestAnimationFrame(() => {
-        if (inputRef.current) {
-          const len = initialValue.length;
-          inputRef.current.focus();
-          try {
-            inputRef.current.setSelectionRange(len, len);
-          } catch {}
-        }
-      });
-    }
+    // We removed the auto-focus logic here to prevent focus stealing on load
   }, [initialValue]);
 
   const draw = useCallback(() => {

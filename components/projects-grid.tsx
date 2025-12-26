@@ -1,442 +1,288 @@
 "use client";
-import { memo, useEffect } from "react";
+
+import { useState } from "react";
+import { motion, AnimatePresence, LayoutGroup } from "motion/react";
 import { cn } from "@/lib/utils";
 import { ActivityFeed } from "@/components/activity-feed";
 import { InteractiveTree } from "@/components/interactive-tree";
-import { StackCloud } from "@/components/stack-cloud";
-import { CardSpotlight } from "@/components/ui/card-spotlight";
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalTrigger,
-  useModal,
-} from "@/components/ui/animated-modal";
-import { motion } from "motion/react";
+import { BentoGrid } from "@/components/ui/bento-grid";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { NetworkMesh } from "./network-mesh";
 import { LabStatus } from "./lab-status";
+import { HardwareSpecs } from "./hardware-specs";
+import { TechStackDisplay } from "@/components/ui/tech-stack-display";
+import {
+  IconCpu,
+  IconNetwork,
+  IconFolders,
+  IconServer,
+  IconArrowLeft,
+} from "@tabler/icons-react";
 
 type Item = {
+  id: string; // Unique ID for layoutId
   title: string;
   description: string;
   header: React.ReactNode;
+  icon?: React.ReactNode;
   className?: string;
-  modalEnabled?: boolean; // default to true when undefined
-  modalContent?: React.ReactNode;
+  content?: React.ReactNode; // Detail content
+  isCustomCard?: boolean;
 };
 
+// Data Definition
 const items: Item[] = [
   {
+    id: "cloud-lab",
     title: "The Cloud Lab",
-    description:
-      "Personal infrastructure running on M-series hardware via Tailscale networking.",
+    description: "Personal VPS infrastructure on Azure & M-series.",
     header: <NetworkMesh />,
+    icon: <IconNetwork className="h-4 w-4 text-neutral-500" />,
     className: "md:col-span-2",
-    modalContent: (
-      <ModalContent className="max-w-3xl overflow-y-auto">
-        <div className="flex flex-col gap-6 p-6">
-          <header>
-            <h4 className="text-3xl font-bold text-white tracking-tighter uppercase">
-              The Cloud Lab
-            </h4>
-            <p className="text-blue-500 font-mono text-[10px] mt-1 uppercase tracking-widest">
-              Azure VPS • Ubuntu Linux • Docker • NPM • Portainer • Tailscale
-            </p>
-          </header>
+    content: (
+      <div className="flex flex-col gap-6 p-6 h-full overflow-y-auto">
+        <header>
+          <h4 className="text-3xl font-bold text-white tracking-tighter uppercase">
+            The Cloud Lab
+          </h4>
+          <p className="text-blue-500 font-mono text-[10px] mt-1 uppercase tracking-widest">
+            Azure VPS • Ubuntu Linux • Docker • NPM • Portainer • Tailscale
+          </p>
+        </header>
 
-          <div className="my-6">
-            <h5 className="text-zinc-400 text-xs font-bold uppercase tracking-widest mb-4">
-              Live Telemetry Stream
-            </h5>
-            <div className="p-4 rounded-xl border border-white/10 bg-black/50">
-              {/* We pass the real URL to the status component */}
-              <LabStatus />
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <p className="text-zinc-400 text-sm leading-relaxed">
-              My development environment is a{" "}
-              <span className="text-white">Cloud Lab</span> hosted on an Azure
-              VPS, accessible via a custom subdomain. Using{" "}
-              <span className="text-white">Tailscale</span> mesh networking, all
-              my devices connect securely without exposing ports. Containers are
-              orchestrated via <span className="text-white">Docker</span>, with{" "}
-              <span className="text-white">NPM</span> for reverse proxy and{" "}
-              <span className="text-white">Portainer</span> for container
-              management.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl border border-white/5 bg-zinc-900/30">
-              <h5 className="text-zinc-300 text-[10px] uppercase font-bold mb-2">
-                Container Orchestration
-              </h5>
-              <p className="text-zinc-500 text-xs">
-                Using <span className="text-blue-400 font-mono">Docker</span> to
-                containerize services, with{" "}
-                <span className="text-blue-400 font-mono">Portainer</span> for
-                visual management and easy container lifecycle control across
-                the lab.
-              </p>
-            </div>
-            <div className="p-4 rounded-xl border border-white/5 bg-zinc-900/30">
-              <h5 className="text-zinc-300 text-[10px] uppercase font-bold mb-2">
-                Zero-Trust Networking
-              </h5>
-              <p className="text-zinc-500 text-xs">
-                All devices connected via{" "}
-                <span className="text-blue-400 font-mono">Tailscale</span> mesh
-                network. No ports exposed—secure access to the Azure VPS lab
-                from any device, anywhere in the world.
-              </p>
-            </div>
-          </div>
-
-          {/* Docker Containers */}
-          <div className="bg-black/50 p-4 rounded-lg border border-white/10 font-mono text-[11px] text-zinc-400">
-            <div className="flex items-center gap-2 mb-2 text-blue-500">
-              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-              <span>docker ps --format table</span>
-            </div>
-            <div className="space-y-1">
-              <div className="flex justify-between border-b border-white/5 pb-1">
-                <span>Container</span>
-                <span>Status</span>
-                <span>Memory</span>
-              </div>
-              <div className="flex justify-between text-zinc-500">
-                <span>portainer</span>
-                <span className="text-green-500">running</span>
-                <span>45MB</span>
-              </div>
-              <div className="flex justify-between text-zinc-500">
-                <span>npm-proxy</span>
-                <span className="text-green-500">running</span>
-                <span>32MB</span>
-              </div>
-            </div>
+        <div className="my-6">
+          <h5 className="text-zinc-400 text-xs font-bold uppercase tracking-widest mb-4">
+            Live Telemetry Stream
+          </h5>
+          <div className="p-4 rounded-xl border border-white/10 bg-black/50">
+            <LabStatus />
           </div>
         </div>
-      </ModalContent>
+
+        <div className="space-y-4">
+          <p className="text-zinc-400 text-sm leading-relaxed">
+            My development environment is a{" "}
+            <span className="text-white">Cloud Lab</span> hosted on an Azure VPS,
+            accessible via a custom subdomain. Using{" "}
+            <span className="text-white">Tailscale</span> mesh networking, all my
+            devices connect securely.
+          </p>
+        </div>
+      </div>
     ),
   },
   {
-    title: "Institutional Knowledge Base",
-    description:
-      "Streamlining IS Unit onboarding with a localized Next.js & Docker documentation system.",
-    header: <InteractiveTree />,
+    id: "hardware",
+    title: "Hardware Manifest",
+    description: "Live infrastructure spec.",
+    header: <HardwareSpecs />,
+    icon: <IconCpu className="h-4 w-4 text-neutral-500" />,
     className: "md:col-span-1",
-    modalContent: (
-      <ModalContent className="max-w-3xl overflow-y-auto">
-        <div className="flex flex-col gap-6 p-6">
-          <header>
-            <h4 className="text-3xl font-bold text-white tracking-tighter">
-              Institutional Knowledge Base
-            </h4>
-            <p className="text-blue-500 font-mono text-xs mt-1 uppercase">
-              Next.js • Docker • PM2 • Documentation-as-Code
-            </p>
-          </header>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
-            <div className="space-y-4">
-              <h5 className="text-zinc-100 font-semibold border-l-2 border-blue-500 pl-3">
-                The Problem
-              </h5>
-              <p className="text-zinc-400 text-sm leading-relaxed">
-                The IS Unit staff relied heavily on verbal onboarding. This
-                &quot;tribal knowledge&quot; led to inconsistent server
-                configurations, repeated questions, and bottlenecks when senior
-                staff were unavailable.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h5 className="text-zinc-100 font-semibold border-l-2 border-green-500 pl-3">
-                The Solution
-              </h5>
-              <p className="text-zinc-400 text-sm leading-relaxed">
-                I engineered a localized, high-performance documentation engine.
-                By using Next.js for the frontend and Docker for the deployment,
-                I ensured the docs were as reliable as the systems they
-                described.
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-zinc-900/50 rounded-xl p-4 border border-white/5 font-mono text-[11px]">
-            <div className="text-zinc-500 mb-2">
-              {/* Infrastructure Snippet */}
-            </div>
-            <pre className="text-blue-400">
-              {`services:
-  docs:
-    container_name: internal-docs
-    build: .
-    restart: unless-stopped
-    ports:
-      - "3004:3000"
-    environment:
-      - NODE_ENV=production`}
-            </pre>
-          </div>
-
-          <div className="space-y-2">
-            <h5 className=" font-semibold uppercase text-[10px] tracking-widest text-zinc-500">
-              Key Outcomes
-            </h5>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-zinc-400">
-              <li className="flex items-center gap-2">
-                <div className="h-1 w-1 bg-blue-500 rounded-full" />
-                Reduced onboarding time by ~40%
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="h-1 w-1 bg-blue-500 rounded-full" />
-                Standardized SSL/Exchange renewal docs
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="h-1 w-1 bg-blue-500 rounded-full" />
-                Instant search via localized indexing
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="h-1 w-1 bg-blue-500 rounded-full" />
-                Zero-downtime containerized management
-              </li>
-            </ul>
-          </div>
-        </div>
-      </ModalContent>
-    ),
-  },
-
-  {
-    title: "Enterprise Systems",
-    description:
-      "Administration and custom module development for ERPNext & HRMS environments.",
-    header: <ActivityFeed />,
-    className: "md:col-span-1",
-    modalContent: (
-      <ModalContent className="max-w-3xl overflow-y-auto">
-        <div className="flex flex-col gap-6 p-6">
-          <header>
-            <h4 className="text-3xl font-bold text-white tracking-tighter uppercase">
-              Enterprise Infrastructure
-            </h4>
-            <p className="text-purple-500 font-mono text-[10px] mt-1 uppercase tracking-widest">
-              Windows Server • Hyper-V • Docker • ERPNext • Production Admin
-            </p>
-          </header>
-
-          <div className="space-y-4">
-            <p className="text-zinc-400 text-sm leading-relaxed">
-              I manage the core production environment for the company. This
-              includes a
-              <span className="text-white"> Physical Hyper-V Server</span>{" "}
-              hosting a Windows 11 VM that serves as our primary application
-              node.
-            </p>
-          </div>
-
-          <div className="bg-zinc-900/80 p-5 rounded-xl border border-white/10 space-y-4">
-            <div className="flex flex-col md:flex-row justify-between gap-4">
-              <div className="space-y-1">
-                <h5 className="text-xs font-bold uppercase tracking-wider text-purple-400">
-                  ERP & HRMS Control
-                </h5>
-                <p className="text-zinc-500 text-[11px]">
-                  Administering the Docker-based production branch for ERPNext.
-                  Developing custom Python hooks and JS escalations to automate
-                  HR workflows.
-                </p>
-              </div>
-            </div>
-
-            <div className="pt-4 border-t border-white/5">
-              <h5 className="text-xs font-bold uppercase tracking-wider text-purple-400">
-                Documentation Engine
-              </h5>
-              <p className="text-zinc-500 text-[11px]">
-                Deploying the IS Unit knowledge base as a containerized service
-                within the production VM, ensuring 99.9% availability for staff
-                onboarding.
-              </p>
-            </div>
-          </div>
-
-          {/* System Metadata Visual */}
-          <div className="flex gap-2 font-mono text-[9px]">
-            <div className="px-2 py-1 rounded bg-zinc-800 text-zinc-400 border border-white/5">
-              HYPER-V: ACTIVE
-            </div>
-            <div className="px-2 py-1 rounded bg-zinc-800 text-zinc-400 border border-white/5">
-              DOCKER-ENGINE: RUNNING
-            </div>
-            <div className="px-2 py-1 rounded bg-zinc-800 text-zinc-400 border border-white/5">
-              CERT: RENEWED (EXCHANGE)
-            </div>
-          </div>
-        </div>
-      </ModalContent>
+    content: (
+      <div className="p-6">
+        <HardwareSpecs />
+        <p className="mt-4 text-zinc-400 text-sm">Real-time hardware specifications of the Cloud Lab environment.</p>
+      </div>
     ),
   },
   {
+    id: "tech-stack",
     title: "The Hybrid Stack",
-    description:
-      "Bridging modern frontend architectures with robust systems engineering and enterprise infrastructure.",
-    header: <StackCloud />,
+    description: "Frontend & Systems Engineering.",
+    header: <TechStackDisplay />,
     className: "md:col-span-2 md:row-span-2",
-    modalEnabled: false,
+    isCustomCard: true,
+    content: (
+      <div className="p-6 h-full flex flex-col">
+        <h4 className="text-3xl font-bold text-white tracking-tighter uppercase mb-6">
+          Command Center Stack
+        </h4>
+        <div className="flex-1 min-h-[400px]">
+          <TechStackDisplay />
+        </div>
+      </div>
+    )
+  },
+  {
+    id: "enterprise",
+    title: "Enterprise Systems",
+    description: "Admin & modules for ERPNext & HRMS.",
+    header: <ActivityFeed />,
+    icon: <IconServer className="h-4 w-4 text-neutral-500" />,
+    className: "md:col-span-1",
+    content: (
+      <div className="flex flex-col gap-6 p-6 h-full overflow-y-auto">
+        <header>
+          <h4 className="text-3xl font-bold text-white tracking-tighter uppercase">
+            Enterprise Infrastructure
+          </h4>
+          <p className="text-purple-500 font-mono text-[10px] mt-1 uppercase tracking-widest">
+            Windows Server • Hyper-V • Docker • ERPNext • Production Admin
+          </p>
+        </header>
+        <p className="text-zinc-400 text-sm mt-4">
+          Administration and custom module development for ERPNext & HRMS
+          environments.
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: "knowledge-base",
+    title: "Institutional Knowledge Base",
+    description: "Localized Next.js & Docker documentation system.",
+    header: <InteractiveTree />,
+    icon: <IconFolders className="h-4 w-4 text-neutral-500" />,
+    className: "md:col-span-1",
+    content: (
+      <div className="flex flex-col gap-6 p-6 h-full overflow-y-auto">
+        <header>
+          <h4 className="text-3xl font-bold text-white tracking-tighter">
+            Institutional Knowledge Base
+          </h4>
+          <p className="text-blue-500 font-mono text-xs mt-1 uppercase">
+            Next.js • Docker • PM2 • Documentation-as-Code
+          </p>
+        </header>
+        <p className="text-zinc-400 text-sm mt-4">
+          Streamlining IS Unit onboarding with a localized Next.js & Docker
+          documentation system.
+        </p>
+      </div>
+    ),
   },
 ];
 
-interface ProjectsGridProps {
-  onModalStateChange: (isOpen: boolean) => void;
-}
+export function ProjectsGrid() {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
-const ProjectCard = memo(function ProjectCard({
-  item,
-  onModalStateChange,
-}: {
-  item: Item;
-  onModalStateChange: (isOpen: boolean) => void;
-}) {
-  const modalEnabled = item.modalEnabled !== false;
+  const selectedItem = items.find((i) => i.id === selectedId);
 
-  if (!modalEnabled) {
-    return (
-      <div
-        className={cn(
-          "relative w-full flex flex-col group/modal-btn cursor-default",
-
-          item.className
-        )}
-      >
-        <CardSpotlight
-          radius={100}
-          className={cn(
-            "p-8 border border-white/10 bg-zinc-900/50 backdrop-blur-sm group overflow-hidden",
-            item.className
+  return (
+    <LayoutGroup>
+      <div className="mb-4 text-center">
+        <AnimatePresence mode="wait">
+          {!selectedId && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-xs text-zinc-500 animate-pulse tracking-widest uppercase"
+            >
+              [TIP] Click modules to expand command view
+            </motion.p>
           )}
-        >
-          <div className="relative z-20 h-full flex flex-col">
-            <div className="flex-1">{item.header}</div>
-            <div className="mt-4">
-              <h3 className="text-left text-xl font-bold text-white group-hover:text-sky-400 transition-colors">
-                {item.title}
-              </h3>
-              <p className="text-left text-sm text-zinc-400 mt-2">
-                {item.description}
-              </p>
-            </div>
-          </div>
-        </CardSpotlight>
+        </AnimatePresence>
       </div>
-    );
-  }
 
-  return (
-    <ModalCardContent item={item} onModalStateChange={onModalStateChange} />
-  );
-});
+      {/* Grid View */}
+      <AnimatePresence mode="popLayout">
+        {!selectedId ? (
+          <BentoGrid className="max-w-6xl mx-auto">
+            {items.map((item) => (
+              <motion.div
+                layoutId={`card-${item.id}`}
+                key={item.id}
+                className={cn("cursor-pointer relative", item.className)}
+                onClick={() => setSelectedId(item.id)}
+              >
+                <HoverBorderGradient
+                  containerClassName="h-full w-full"
+                  className="h-full w-full bg-black p-4 flex flex-col justify-between"
+                  as="div"
+                >
+                  {/* Header */}
+                  <div className="flex-1 w-full min-h-[6rem] rounded-xl overflow-hidden border border-white/5 bg-zinc-900/50 relative">
+                    {/* Add pointer-events-none to children in grid view to prevent interaction conflicts */}
+                    <div className="pointer-events-none h-full w-full">
+                      {item.header}
+                    </div>
+                  </div>
+                  {/* Content */}
+                  <div className="mt-4 flex flex-col items-start space-y-2">
+                    <div className="flex items-center gap-2">
+                      {item.icon}
+                      <h3 className="font-bold text-neutral-200 tracking-tight">
+                        {item.title}
+                      </h3>
+                    </div>
+                    <p className="text-neutral-400 text-xs text-left">
+                      {item.description}
+                    </p>
+                  </div>
+                </HoverBorderGradient>
+              </motion.div>
+            ))}
+          </BentoGrid>
+        ) : (
+          /* Master-Detail View */
+          <div className="max-w-6xl pe-2 md:pe-0 mx-auto h-auto md:h-[600px] flex flex-col md:flex-row gap-4">
+            {/* Left Sidebar (List) */}
+            <div className="w-full md:w-[350px] shrink-0 flex flex-col gap-2 overflow-y-auto pr-2 max-h-full">
+              <motion.button
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="flex items-center gap-2 text-zinc-500 hover:text-white mb-4 text-sm font-mono uppercase tracking-wider"
+                onClick={() => setSelectedId(null)}
+              >
+                <IconArrowLeft className="w-4 h-4" /> Back to Grid
+              </motion.button>
 
-const ModalCardContent = memo(function ModalCardContent({
-  item,
-  onModalStateChange,
-}: {
-  item: Item;
-  onModalStateChange: (isOpen: boolean) => void;
-}) {
-  const { open } = useModal();
-  const modalEnabled = item.modalEnabled !== false;
-
-  useEffect(() => {
-    onModalStateChange(open);
-  }, [open, onModalStateChange]);
-
-  return (
-    <ModalTrigger
-      className={cn(
-        "relative w-full flex flex-col group/modal-btn h-100",
-        item.className
-      )}
-    >
-      <motion.div
-        whileHover={{ y: -8, scale: 1.01 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-        className="h-full w-full"
-      >
-        <CardSpotlight
-          radius={150} // Increased for more visibility
-          className={cn(
-            "p-8 border border-white/5 bg-zinc-900/40 backdrop-blur-md group overflow-hidden h-full transition-all duration-500",
-            "hover:border-sky-500/40 hover:shadow-[0_0_30px_-10px_rgba(56,189,248,0.2)]",
-            item.className
-          )}
-        >
-          <div className="relative z-20 h-full flex flex-col">
-            <div className="flex-1">{item.header}</div>
-            <div className="mt-4">
-              <div className="flex items-center gap-2">
-                <h3 className="text-left text-xl font-bold text-white group-hover:text-sky-400 transition-colors">
-                  {item.title}
-                </h3>
-                {modalEnabled && (
-                  <div className="h-1.5 w-1.5 rounded-full bg-sky-500 animate-pulse opacity-0 group-hover:opacity-100 transition-opacity" />
-                )}
-              </div>
-              <p className="text-left text-sm text-zinc-500 mt-2 group-hover:text-zinc-400 transition-colors">
-                {item.description}
-              </p>
+              {items.map((item) => (
+                <motion.div
+                  layoutId={`card-${item.id}`}
+                  key={item.id}
+                  onClick={() => setSelectedId(item.id)}
+                  className={cn(
+                    "p-4 rounded-xl border cursor-pointer transition-colors relative overflow-hidden",
+                    selectedId === item.id
+                      ? "bg-zinc-900 border-white/20"
+                      : "bg-black border-white/5 hover:border-white/10"
+                  )}
+                >
+                  <div className="flex items-center gap-3 relative z-10">
+                    {item.icon}
+                    <div className="flex flex-col items-start">
+                      <h3 className={cn("text-sm font-bold", selectedId === item.id ? "text-white" : "text-zinc-400")}>
+                        {item.title}
+                      </h3>
+                      {selectedId === item.id && (
+                        <p className="text-[10px] text-zinc-500 mt-1 line-clamp-1">
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  {/* Active Indicator */}
+                  {selectedId === item.id && (
+                    <motion.div
+                      layoutId="active-glow"
+                      className="absolute inset-0 bg-blue-500/5 z-0"
+                    />
+                  )}
+                </motion.div>
+              ))}
             </div>
+
+            {/* Right Content */}
+            <motion.div
+              key="content"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ delay: 0.2 }}
+              className="w-[350px] md:w-[650px] shrink-0 bg-black border border-white/10 rounded-2xl overflow-hidden relative min-h-[500px]"
+            >
+              {/* Scanline overlay for detail view */}
+              <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-[1] bg-[length:100%_2px,3px_100%] opacity-20" />
+
+              <div className="relative z-10 h-full">
+                {selectedItem?.content}
+              </div>
+            </motion.div>
           </div>
-        </CardSpotlight>
-      </motion.div>
-    </ModalTrigger>
-  );
-});
-
-export function ProjectsGrid({ onModalStateChange }: ProjectsGridProps) {
-  return (
-    <div id="grid" className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {items.map((item) => {
-        const modalEnabled = item.modalEnabled !== false;
-
-        if (!modalEnabled) {
-          return (
-            <ProjectCard
-              key={item.title}
-              item={item}
-              onModalStateChange={onModalStateChange}
-            />
-          );
-        }
-
-        return (
-          <Modal key={item.title}>
-            <ProjectCard item={item} onModalStateChange={onModalStateChange} />
-            <ModalBody>
-              {item.modalContent}
-              <ModalFooter className="gap-4">
-                <button
-                  aria-label="Open live demo"
-                  className="px-2 py-1 bg-gray-200 text-black dark:bg-white dark:text-black border border-gray-300 rounded-md text-sm w-28"
-                >
-                  Live Demo
-                </button>
-                <button
-                  aria-label="View source code"
-                  className="bg-black text-white dark:bg-zinc-900 dark:text-white px-2 py-1 rounded-md border border-white/10 text-sm w-28"
-                >
-                  Source Code
-                </button>
-              </ModalFooter>
-            </ModalBody>
-          </Modal>
-        );
-      })}
-    </div>
+        )}
+      </AnimatePresence>
+    </LayoutGroup>
   );
 }
