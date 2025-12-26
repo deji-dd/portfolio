@@ -1,4 +1,24 @@
 import { Timeline } from "@/components/ui/timeline";
+import { cn } from "@/lib/utils";
+
+const LogEntry = ({ text }: { text: string }) => {
+  const [prefix, ...rest] = text.split(":");
+  const content = rest.join(":").trim();
+
+  let colorClass = "text-zinc-400";
+  if (prefix === "PUBLISH") colorClass = "text-emerald-400";
+  if (prefix === "DEPLOY") colorClass = "text-violet-400";
+  if (prefix === "BUILD") colorClass = "text-blue-400";
+  if (prefix === "MOUNT") colorClass = "text-orange-400";
+  if (prefix === "INIT") colorClass = "text-white";
+
+  return (
+    <div className="bg-zinc-900/50 p-2 rounded-lg border border-white/10 text-[10px] font-mono">
+      <span className={cn("font-bold mr-2", colorClass)}>{prefix}:</span>
+      <span className="text-zinc-400">{content}</span>
+    </div>
+  );
+};
 
 export function SystemLogs() {
   const data = [
@@ -10,12 +30,11 @@ export function SystemLogs() {
             Initial deployments and freelance growth.
           </p>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
-              PUBLISH: Glorious Eagles Site
-            </div>
-            <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
-              PUBLISH: Ginoba Foundation
-            </div>
+            <LogEntry text="INIT: Ginoba Foundation Site Creation" />
+            <LogEntry text="PUBLISH: Ginoba Foundation Site" />
+            <LogEntry text="INIT: Glorious Eagles Site Creation" />
+            <LogEntry text="PUBLISH: Glorious Eagles Site" />
+
           </div>
         </div>
       ),
@@ -28,12 +47,8 @@ export function SystemLogs() {
             Established core infrastructure and expanded client projects.
           </p>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
-              PUBLISH: Mental Health Co Landing Page
-            </div>
-            <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
-              DEPLOY: ERP System Mgmt
-            </div>
+            <LogEntry text="PUBLISH: Mental Health Co Landing Page" />
+            <LogEntry text="DEPLOY: ERP System Mgmt" />
           </div>
         </div>
       ),
@@ -46,18 +61,10 @@ export function SystemLogs() {
             Optimizing the Cloud Lab and deploying corporate tools.
           </p>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
-              BUILD: Corporate Invoice Tracker
-            </div>
-            <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
-              PUBLISH: BT Technologies Site
-            </div>
-            <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
-              MOUNT: Custom Azure VPS
-            </div>
-            <div className="bg-zinc-800 p-2 rounded-lg border border-white/10 text-[10px] text-zinc-400 font-mono">
-              INIT: Portfolio Deployed
-            </div>
+            <LogEntry text="BUILD: Corporate Invoice Tracker" />
+            <LogEntry text="PUBLISH: BT Technologies Site" />
+            <LogEntry text="MOUNT: Custom Azure VPS" />
+            <LogEntry text="INIT: Portfolio Deployed" />
           </div>
         </div>
       ),

@@ -10,7 +10,7 @@ import {
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { cn } from "@/lib/utils";
 
-export function NavigationDock({ isHidden }: { isHidden: boolean }) {
+export function NavigationDock() {
   const links = [
     {
       title: "Home",
@@ -62,7 +62,7 @@ export function NavigationDock({ isHidden }: { isHidden: boolean }) {
       href: "#",
       // We'll handle the click in the FloatingDock or via a global event listener on the href
       onClick: () => {
-         window.dispatchEvent(new CustomEvent("open-command-palette"));
+        window.dispatchEvent(new CustomEvent("open-command-palette"));
       }
     },
   ];
@@ -70,10 +70,7 @@ export function NavigationDock({ isHidden }: { isHidden: boolean }) {
   return (
     <div
       className={cn(
-        "fixed bottom-10 left-1/2 -translate-x-1/2 transition-all duration-300",
-        isHidden
-          ? "z-0 opacity-0 pointer-events-none translate-y-10"
-          : "z-50 opacity-100 translate-y-0"
+        "fixed bottom-10 left-1/2 -translate-x-1/2 transition-all duration-300 z-50 opacity-100 translate-y-0"
       )}
     >
       <FloatingDock items={links} />

@@ -9,11 +9,9 @@ import { DataFlowParticles } from "@/components/ui/data-flow-particles";
 import { CommandPalette } from "@/components/command-palette";
 import { OnboardingTip } from "@/components/onboarding-tip";
 import { SystemLogs } from "@/components/system-logs";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 export default function Home() {
-  const [isAnyModalOpen, setIsAnyModalOpen] = useState(false);
-
   // Force scroll to top on load to prevent unrelated focus jumps
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -28,7 +26,7 @@ export default function Home() {
       <div className="relative z-10 py-20 px-4">
         <div className="max-w-6xl mx-auto flex flex-col space-y-20 md:space-y-52">
           <HeroSection />
-          <ProjectsGrid onModalStateChange={setIsAnyModalOpen} />
+          <ProjectsGrid />
 
           <div className="space-y-4">
             <h3 className="text-sm text-zinc-500 font-mono tracking-widest uppercase border-b border-white/10 pb-2">
@@ -40,7 +38,7 @@ export default function Home() {
           <ContactSection />
         </div>
       </div>
-      <NavigationDock isHidden={isAnyModalOpen} />
+      <NavigationDock />
       <CommandPalette />
       <OnboardingTip />
       <PageFooter />
