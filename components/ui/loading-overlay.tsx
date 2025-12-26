@@ -80,8 +80,8 @@ export function LoadingOverlay({ children }: LoadingOverlayProps) {
                 />
             </div>
             
-             <div className="absolute bottom-4 right-4 text-zinc-600 text-xs animate-pulse">
-                SYSTEM_ID: CLOUD_LAB_01
+             <div className="absolute bottom-4 right-30 text-zinc-600 text-xs animate-pulse">
+                SYSTEM_ID: CLOUD-LAB
              </div>
           </motion.div>
         )}

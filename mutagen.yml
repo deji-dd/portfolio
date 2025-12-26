@@ -13,4 +13,4 @@ sync:
 
 # Custom commands for automation
 commands:
-  dev: ssh deji@100.99.211.68 "cd ~/repos/portfolio && pnpm install && pnpm dev"
+  dev: ssh -t deji@100.99.211.68 "cd /home/deji/repos/portfolio && pnpm dev"

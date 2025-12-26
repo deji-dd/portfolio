@@ -16,6 +16,8 @@ import {
 import { motion } from "motion/react";
 import { NetworkMesh } from "./network-mesh";
 import { LabStatus } from "./lab-status";
+import { SystemLogs } from "./system-logs";
+import { HardwareSpecs } from "./hardware-specs";
 
 type Item = {
   title: string;
@@ -281,6 +283,20 @@ const items: Item[] = [
         </div>
       </ModalContent>
     ),
+  },
+  {
+    title: "System Events",
+    description: "Chronological log of key project milestones and deployments.",
+    header: <SystemLogs />,
+    className: "md:col-span-2", // Wider for logs
+    modalEnabled: false,
+  },
+  {
+    title: "Hardware Manifest",
+    description: "Live specification of the underlying physical infrastructure.",
+    header: <HardwareSpecs />,
+    className: "md:col-span-1",
+    modalEnabled: false,
   },
   {
     title: "The Hybrid Stack",

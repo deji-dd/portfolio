@@ -26,16 +26,16 @@ export function OnboardingTip() {
         initial={{ opacity: 0, y: 50, x: "-50%" }}
         animate={{ opacity: 1, y: 0, x: "-50%" }}
         exit={{ opacity: 0, y: 20, x: "-50%" }}
-        className="fixed bottom-28 left-1/2 z-50 flex items-center gap-4 bg-zinc-900/90 border border-zinc-800 backdrop-blur-md px-6 py-4 rounded-full shadow-2xl max-w-[90vw] md:max-w-md"
+        className="fixed bottom-20 md:bottom-30 left-1/2 z-50 flex items-center gap-4 bg-zinc-900/90 border border-zinc-800 backdrop-blur-md px-6 py-4 rounded-full shadow-2xl min-w-[90vw] md:min-w-md"
       >
         <div className="bg-zinc-800 p-2 rounded-full">
             <IconTerminal2 className="w-5 h-5 text-green-500 animate-pulse" />
         </div>
-        <div className="flex flex-col">
-            <span className="text-sm font-semibold text-white">System Ready</span>
-            <span className="text-xs text-zinc-400">
+        <div className="flex flex-col min-w-0 flex-1">
+            <span className="text-sm font-semibold text-white truncate">System Ready</span>
+            <span className="text-xs text-zinc-400 break-words leading-tight">
                <span className="hidden md:inline">Press <span className="text-white font-mono bg-zinc-800 px-1 rounded">Cmd+K</span> to execute commands.</span>
-               <span className="md:hidden">System initialized. Tap terminal icon to start.</span>
+               <span className="md:hidden">Open the bottom dock and tap the terminal icon to run system commands.</span>
             </span>
         </div>
         <button 
