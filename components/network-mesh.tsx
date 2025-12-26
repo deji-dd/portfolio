@@ -83,7 +83,7 @@ export function NetworkMesh() {
   }, []);
 
   return (
-    <div className="w-full p-4 md:p-4 rounded-2xl border border-white/5 bg-zinc-900/20 backdrop-blur-sm relative overflow-hidden">
+    <div className="w-full p-4 md:p-4 rounded-2xl border border-white/5 bg-zinc-900/20 backdrop-blur-sm relative overflow-x-auto md:overflow-hidden">
       <div className="absolute inset-0 bg-grid-white/[0.02] mask-[linear-gradient(to_bottom,transparent,black)]" />
 
       <div className="relative z-10 flex flex-wrap md:flex-nowrap justify-center md:justify-between items-center gap-6 md:gap-4 min-h-40">

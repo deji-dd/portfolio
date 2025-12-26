@@ -1,6 +1,6 @@
 "use client";
 
-import { IconCpu, IconDeviceAnalytics, IconServer } from "@tabler/icons-react";
+import { IconDeviceAnalytics, IconServer } from "@tabler/icons-react";
 
 export function HardwareSpecs() {
   return (
