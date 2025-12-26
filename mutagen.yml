@@ -1,0 +1,16 @@
+sync:
+  defaults:
+    mode: "two-way-resolved"
+    ignore:
+      paths:
+        - "node_modules"
+        - ".next"
+        - ".git"
+        - ".DS_Store"
+  portfolio-sync:
+    alpha: "."
+    beta: "deji@100.99.211.68:/home/deji/repos/portfolio"
+
+# Custom commands for automation
+commands:
+  dev: ssh deji@100.99.211.68 "cd ~/repos/portfolio && pnpm install && pnpm dev"

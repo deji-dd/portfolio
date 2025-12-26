@@ -1,70 +1,51 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { IconRefresh } from "@tabler/icons-react";
+
+const BOOT_LOGS = [
+  "INITIALIZING KERNEL...",
+  "LOADING DRIVERS [NVME_SSD]... OK",
+  "LOADING DRIVERS [GPU_RTX]... OK",
+  "MOUNTING FILE SYSTEMS...",
+  "CHECKING INTEGRITY [ROOT]... VERIFIED",
+  "STARTING TAILSCALE DAEMON...",
+  "ESTABLISHING PEER CONNECTION [MESH_NET]... OK",
+  "AUTHENTICATING USER [AYODEJI]... SUCCESS",
+  "LOADING USER INTERFACE...",
+  "SYSTEM OPTIMIZED [100%]"
+];
 
 type LoadingOverlayProps = {
   children: React.ReactNode;
-  minDurationMs?: number;
-  maxDurationMs?: number;
 };
 
-export function LoadingOverlay({
-  children,
-  minDurationMs = 1500,
-  maxDurationMs = 5000,
-}: LoadingOverlayProps) {
+export function LoadingOverlay({ children }: LoadingOverlayProps) {
   const [hide, setHide] = useState(false);
+  const [logs, setLogs] = useState<string[]>([]);
+  const logsEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let minTimer: NodeJS.Timeout | null = null;
-    let maxTimer: NodeJS.Timeout | null = null;
-    let fontsReady = false;
-
-    const attemptHide = () => {
-      // Only hide if minimum time has passed
-      if (minTimer === null) {
-        setHide(true);
+    let currentLogIndex = 0;
+    
+    const interval = setInterval(() => {
+      if (currentLogIndex >= BOOT_LOGS.length) {
+        clearInterval(interval);
+        setTimeout(() => setHide(true), 800); // Small delay after last log
+        return;
       }
-    };
 
-    // Minimum duration before we can hide
-    minTimer = setTimeout(() => {
-      minTimer = null;
-      // If any readiness signal already fired, hide now
-      if (fontsReady || document.readyState === "complete") {
-        setHide(true);
+      setLogs((prev) => [...prev, BOOT_LOGS[currentLogIndex]]);
+      currentLogIndex++;
+      
+      // Auto-scroll
+      if (logsEndRef.current) {
+         logsEndRef.current.scrollIntoView({ behavior: "smooth" });
       }
-    }, minDurationMs);
 
-    // Maximum duration (safety valve)
-    maxTimer = setTimeout(() => {
-      setHide(true);
-    }, maxDurationMs);
+    }, 300); // Speed of log scroll
 
-    // Listen for fonts ready
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(() => {
-        fontsReady = true;
-        attemptHide();
-      });
-    }
-
-    // Listen for document ready
-    const handleReadyStateChange = () => {
-      if (document.readyState === "complete") {
-        attemptHide();
-      }
-    };
-
-    document.addEventListener("readystatechange", handleReadyStateChange);
-
-    return () => {
-      if (minTimer) clearTimeout(minTimer);
-      if (maxTimer) clearTimeout(maxTimer);
-      document.removeEventListener("readystatechange", handleReadyStateChange);
-    };
-  }, [minDurationMs, maxDurationMs]);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="relative">
@@ -72,22 +53,40 @@ export function LoadingOverlay({
         {!hide && (
           <motion.div
             initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-50 bg-black text-white flex items-center justify-center"
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="fixed inset-0 z-[60] bg-black text-green-500 font-mono text-xs md:text-sm p-8 flex flex-col justify-end overflow-hidden cursor-none"
           >
-            <div className="flex flex-col items-center gap-3">
-              <IconRefresh className="w-5 h-5 animate-spin duration-1500 text-zinc-400" />
-              <div className="text-xs font-mono uppercase tracking-widest text-zinc-500">
-                Initializing Interface
-              </div>
+             {/* Scanlines for loading screen specifically */}
+             <div className="absolute inset-0 z-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_50%,rgba(0,0,0,0.2)_50%)] bg-[length:100%_4px] pointer-events-none opacity-50" />
+            
+            <div className="relative z-10 max-w-2xl w-full mx-auto pb-12">
+               {logs.map((log, i) => (
+                 <motion.div 
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="mb-1"
+                 >
+                    <span className="text-zinc-500 mr-2">{`[${(0.124 * (i + 1)).toFixed(3)}]`}</span>
+                    {log}
+                 </motion.div>
+               ))}
+               <div ref={logsEndRef} />
+               <motion.span 
+                 animate={{ opacity: [0, 1, 0] }}
+                 transition={{ repeat: Infinity, duration: 0.8 }}
+                 className="inline-block w-2 h-4 bg-green-500 ml-1 translate-y-1"
+                />
             </div>
-            <div className="absolute bottom-0 left-0 right-0 h-12 bg-linear-to-t from-zinc-950/40 to-transparent pointer-events-none" />
+            
+             <div className="absolute bottom-4 right-4 text-zinc-600 text-xs animate-pulse">
+                SYSTEM_ID: CLOUD_LAB_01
+             </div>
           </motion.div>
         )}
       </AnimatePresence>
-      {/* Render children underneath; they'll be visible when overlay fades */}
+      {/* Render children - they load underneath */}
       {children}
     </div>
   );

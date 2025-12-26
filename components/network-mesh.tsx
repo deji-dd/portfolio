@@ -15,17 +15,17 @@ const LAB_URL = "https://lab.ayodejib.dev";
 const nodes = [
   {
     id: "dns",
-    label: "Cloudflare DNS",
+    label: "Cloudflare",
     icon: <IconWorld className="w-5 h-5" />,
     color: "text-orange-400",
     desc: "Domain & Nameservers",
   },
   {
     id: "portfolio",
-    label: "Vercel Edge",
+    label: "Vercel",
     icon: <IconBrandNextjs className="w-5 h-5" />,
     color: "text-white",
-    desc: "Portfolio (https://ayodejib.dev)",
+    desc: "Portfolio",
   },
   {
     id: "tunnel",
@@ -86,7 +86,7 @@ export function NetworkMesh() {
     <div className="w-full p-4 md:p-4 rounded-2xl border border-white/5 bg-zinc-900/20 backdrop-blur-sm relative overflow-hidden">
       <div className="absolute inset-0 bg-grid-white/[0.02] mask-[linear-gradient(to_bottom,transparent,black)]" />
 
-      <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 min-h-40">
+      <div className="relative z-10 flex flex-wrap md:flex-nowrap justify-center md:justify-between items-center gap-6 md:gap-4 min-h-40">
         {/* The Connection Lines */}
         <div className="absolute top-1/2 left-4 right-4 h-0.5 bg-zinc-800 -translate-y-1/2 hidden md:block" />
 

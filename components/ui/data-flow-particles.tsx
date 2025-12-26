@@ -11,7 +11,7 @@ type Particle = {
   opacity: number;
 };
 
-const PARTICLE_COUNT = 70;
+const PARTICLE_COUNT = 30;
 
 export function DataFlowParticles({ className }: { className?: string }) {
   const [mounted, setMounted] = useState(false);

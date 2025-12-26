@@ -54,6 +54,17 @@ export function NavigationDock({ isHidden }: { isHidden: boolean }) {
       ),
       href: "/cv.pdf",
     },
+    {
+      title: "Command Palette (Cmd+K)",
+      icon: (
+        <IconTerminal2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+      ),
+      href: "#",
+      // We'll handle the click in the FloatingDock or via a global event listener on the href
+      onClick: () => {
+         window.dispatchEvent(new CustomEvent("open-command-palette"));
+      }
+    },
   ];
 
   return (

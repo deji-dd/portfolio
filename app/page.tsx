@@ -6,10 +6,18 @@ import { NavigationDock } from "@/components/navigation-dock";
 import { PageFooter } from "@/components/page-footer";
 import { GridOverlay } from "@/components/ui/grid-overlay";
 import { DataFlowParticles } from "@/components/ui/data-flow-particles";
-import { useState } from "react";
+import { CommandPalette } from "@/components/command-palette";
+import { OnboardingTip } from "@/components/onboarding-tip";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [isAnyModalOpen, setIsAnyModalOpen] = useState(false);
+
+  // Force scroll to top on load to prevent unrelated focus jumps
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="relative min-h-screen bg-command overflow-x-hidden">
       <DataFlowParticles className="z-0 opacity-30" />
@@ -24,6 +32,8 @@ export default function Home() {
         </div>
       </div>
       <NavigationDock isHidden={isAnyModalOpen} />
+      <CommandPalette />
+      <OnboardingTip />
       <PageFooter />
     </div>
   );
