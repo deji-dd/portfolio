@@ -21,8 +21,8 @@ export function HeroSection() {
           >
             <div className="mt-4">
               <div className=" text-2xl leading-snug tracking-wide">
-                Architecting high-performance systems and resilient Next.js
-                applications for the modern web.
+                Merging modern frontend architecture with production-grade
+                systems engineering.
               </div>
             </div>
           </div>
@@ -32,7 +32,11 @@ export function HeroSection() {
           <span className="text-[10px] font-mono px-3 py-1 rounded-full border border-white/10 bg-white/5 text-zinc-500 uppercase">
             Lagos, NG
           </span>
-          <span className="text-[10px] font-mono px-3 py-1 rounded-full border border-white/10 bg-white/5 text-zinc-500 uppercase">
+          <span className="text-[10px] font-mono px-3 py-1 rounded-full border border-white/10 bg-white/5 text-zinc-500 uppercase flex items-center gap-2">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
             System Online
           </span>
         </div>
@@ -43,7 +47,7 @@ export function HeroSection() {
           {/* Placeholder UI */}
           <div className="absolute inset-0 bg-linear-to-tr from-cyan-500/10 to-transparent opacity-50" />
           <IconUserCircle className="w-20 h-20 text-zinc-700 group-hover:text-zinc-500 transition-colors" />
-          <div className="absolute bottom-2 left-2 text-[10px] font-mono text-zinc-600">
+          <div className="absolute bottom-2 left-2 text-[10px] font-mono text-zinc-600 animate-pulse">
             [IDENTITY_REDACTED]
           </div>
 

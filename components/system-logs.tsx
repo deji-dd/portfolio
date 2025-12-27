@@ -27,13 +27,12 @@ export function SystemLogs() {
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            Foundation phase: Building the core infrastructure and initial client deployments.
+            Deployment of initial production workloads for non-profit and healthcare sectors.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <LogEntry text="INIT: Deji.dev Network Initialization" />
             <LogEntry text="PUBLISH: Ginoba Foundation Portal" />
-            <LogEntry text="MOUNT: Private Cloud Storage Cluster" />
             <LogEntry text="DEPLOY: Glorious Eagles Platform" />
+            <LogEntry text="INIT: Client Intake & File Systems" />
           </div>
         </div>
       ),
@@ -43,13 +42,12 @@ export function SystemLogs() {
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            Expansion phase: Scaling systems and integrating complex enterprise modules.
+            Transition to Systems Administration. Managed on-premise infrastructure at BT Technologies.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <LogEntry text="PUBLISH: Mental Health Co. Landing Page" />
-            <LogEntry text="BUILD: ERPNext Custom HRMS Module" />
-            <LogEntry text="DEPLOY: Legacy System Migration (v2)" />
-            <LogEntry text="MOUNT: Docker Swarm Cluster" />
+            <LogEntry text="MOUNT: Joined BT Technologies (SysAdmin)" />
+            <LogEntry text="INIT: Physical Server Management" />
+            <LogEntry text="BUILD: Internal Invoice Tracker (v1)" />
           </div>
         </div>
       ),
@@ -59,13 +57,14 @@ export function SystemLogs() {
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            Optimization phase: Automated pipelines and high-performance architecture.
+            Hybrid Engineering: Unifying Fullstack Dev with DevOps automation (Docker, AD, Firewalls).
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <LogEntry text="BUILD: Corporate Invoice Intelligence System" />
-            <LogEntry text="PUBLISH: BT Technologies Corporate Site" />
-            <LogEntry text="MOUNT: Azure Hybrid Cloud Environment" />
-            <LogEntry text="INIT: System Command Center (Portfolio v3)" />
+            <LogEntry text="MOUNT: Enterprise ERP Cluster (Frappe)" />
+            <LogEntry text="PUBLISH: Ornate Mental Health Booking" />
+            <LogEntry text="DEPLOY: BT Tech Corporate Refactor" />
+            <LogEntry text="BUILD: Internal Documentation Hub" />
+            <LogEntry text="INIT: Cloud Lab & Portfolio v3" />
           </div>
         </div>
       ),

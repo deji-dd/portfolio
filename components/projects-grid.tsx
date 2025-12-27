@@ -35,7 +35,7 @@ const items: Item[] = [
   {
     id: "cloud-lab",
     title: "The Cloud Lab",
-    description: "Personal VPS infrastructure on Azure & M-series.",
+    description: "Hybrid infrastructure: Azure + Physical Servers.",
     header: <NetworkMesh />,
     icon: <IconNetwork className="h-4 w-4 text-neutral-500" />,
     className: "md:col-span-2",
@@ -46,7 +46,7 @@ const items: Item[] = [
             The Cloud Lab
           </h4>
           <p className="text-blue-500 font-mono text-[10px] mt-1 uppercase tracking-widest">
-            Azure VPS • Ubuntu Linux • Docker • NPM • Portainer • Tailscale
+            Azure • Fortinet • OpnSense • Windows Server • AD
           </p>
         </header>
 
@@ -61,11 +61,12 @@ const items: Item[] = [
 
         <div className="space-y-4">
           <p className="text-zinc-400 text-sm leading-relaxed">
-            My development environment is a{" "}
-            <span className="text-white">Cloud Lab</span> hosted on an Azure VPS,
-            accessible via a custom subdomain. Using{" "}
-            <span className="text-white">Tailscale</span> mesh networking, all my
-            devices connect securely.
+            My development environment is a hybrid <strong>Cloud Lab</strong> spanning Azure
+            VPS instances and physical on-premise servers.
+          </p>
+          <p className="text-zinc-400 text-sm leading-relaxed">
+            It manages internal DNS via Active Directory, routing traffic through
+            <strong>Fortinet/OpnSense</strong> firewalls to Dockerized workloads.
           </p>
         </div>
       </div>
@@ -106,7 +107,7 @@ const items: Item[] = [
   {
     id: "enterprise",
     title: "Enterprise Systems",
-    description: "Admin & modules for ERPNext & HRMS.",
+    description: "ERPNext & HRMS Deployment.",
     header: <ActivityFeed />,
     icon: <IconServer className="h-4 w-4 text-neutral-500" />,
     className: "md:col-span-1",
@@ -117,20 +118,20 @@ const items: Item[] = [
             Enterprise Infrastructure
           </h4>
           <p className="text-purple-500 font-mono text-[10px] mt-1 uppercase tracking-widest">
-            Windows Server • Hyper-V • Docker • ERPNext • Production Admin
+            Docker • Frappe • ERPNext • Windows 11 Pro VM
           </p>
         </header>
         <p className="text-zinc-400 text-sm mt-4">
-          Administration and custom module development for ERPNext & HRMS
-          environments.
+          Setup and management of <strong>ERPNext & HRMS</strong> systems on dedicated
+          Virtual Machines, orchestrated via Docker for BT Technologies.
         </p>
       </div>
     ),
   },
   {
     id: "knowledge-base",
-    title: "Institutional Knowledge Base",
-    description: "Localized Next.js & Docker documentation system.",
+    title: "Internal Documentation",
+    description: "Documentation Hub for BT Technologies.",
     header: <InteractiveTree />,
     icon: <IconFolders className="h-4 w-4 text-neutral-500" />,
     className: "md:col-span-1",
@@ -138,15 +139,15 @@ const items: Item[] = [
       <div className="flex flex-col gap-6 p-6 h-full overflow-y-auto">
         <header>
           <h4 className="text-3xl font-bold text-white tracking-tighter">
-            Institutional Knowledge Base
+            Internal Documentation
           </h4>
           <p className="text-blue-500 font-mono text-xs mt-1 uppercase">
-            Next.js • Docker • PM2 • Documentation-as-Code
+            Next.js • Nginx Proxy Manager • Portainer
           </p>
         </header>
         <p className="text-zinc-400 text-sm mt-4">
-          Streamlining IS Unit onboarding with a localized Next.js & Docker
-          documentation system.
+          A centralized documentation hub for internal tools and server configurations,
+          deployed behind a reverse proxy.
         </p>
       </div>
     ),
