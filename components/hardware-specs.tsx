@@ -17,32 +17,32 @@ export function HardwareSpecs() {
                         <IconDeviceAnalytics className="w-6 h-6 text-blue-400" />
                     </div>
                     <div>
-                        <h3 className="text-white font-bold uppercase tracking-wider">Host Node</h3>
-                        <p className="text-zinc-500">azure-vps-prod-01</p>
+                        <h3 className="text-white font-bold uppercase tracking-wider">Cloud Lab</h3>
+                        <p className="text-zinc-500">lab.ayodejib.dev</p>
                     </div>
                 </div>
 
                 <div className="grid grid-cols-[1fr_2fr] gap-y-2 text-[11px] md:text-xs">
                     <span className="text-zinc-500">OS</span>
-                    <span className="text-zinc-300 truncate">Ubuntu 22.04 LTS (Jammy)</span>
+                    <span className="text-zinc-300 truncate">Ubuntu 24.04 LTS (Noble)</span>
 
                     <span className="text-zinc-500">Kernel</span>
-                    <span className="text-zinc-300 truncate">5.15.0-101-generic</span>
+                    <span className="text-zinc-300 truncate">6.8.0-1008-azure</span>
 
                     {/* <span className="text-zinc-500">Uptime</span>
                 <span className="text-green-400">14 days, 3 hours, 22 mins</span> */}
 
-                    <span className="text-zinc-500">CPU</span>
-                    <span className="text-zinc-300 truncate">AMD EPYC 7763 (2) @ 2.45GHz</span>
+                    <span className="text-zinc-500">vCPU</span>
+                    <span className="text-zinc-300 truncate">Azure B2als_v2 (2 vCPU)</span>
 
                     <span className="text-zinc-500">Memory</span>
-                    <span className="text-zinc-300 truncate">8192MiB / 16384MiB</span>
+                    <span className="text-zinc-300 truncate">4096MiB</span>
 
                     <span className="text-zinc-500">Disk</span>
-                    <span className="text-zinc-300 truncate">120GB SSD (NVMe) (45% Used)</span>
+                    <span className="text-zinc-300 truncate">64GB Standard SSD (LRS)</span>
 
-                    <span className="text-zinc-500">Network</span>
-                    <span className="text-zinc-300 truncate">Broadcom NetXtreme BCM5720</span>
+                    <span className="text-zinc-500">Region</span>
+                    <span className="text-zinc-300 truncate">West Europe (Holland)</span>
                 </div>
 
                 {/* Color Palette visualization like real neofetch */}

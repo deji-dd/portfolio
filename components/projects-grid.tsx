@@ -35,7 +35,7 @@ const items: Item[] = [
   {
     id: "cloud-lab",
     title: "The Cloud Lab",
-    description: "Hybrid infrastructure: Azure + Physical Servers.",
+    description: "Azure B2als_v2 • Ubuntu 24.04 LTS",
     header: <NetworkMesh />,
     icon: <IconNetwork className="h-4 w-4 text-neutral-500" />,
     className: "md:col-span-2",
@@ -46,7 +46,7 @@ const items: Item[] = [
             The Cloud Lab
           </h4>
           <p className="text-blue-500 font-mono text-[10px] mt-1 uppercase tracking-widest">
-            Azure • Fortinet • OpnSense • Windows Server • AD
+            lab.ayodejib.dev • 2 vCPU • 4GB RAM • Docker
           </p>
         </header>
 
@@ -61,12 +61,12 @@ const items: Item[] = [
 
         <div className="space-y-4">
           <p className="text-zinc-400 text-sm leading-relaxed">
-            My development environment is a hybrid <strong>Cloud Lab</strong> spanning Azure
-            VPS instances and physical on-premise servers.
+            My personal development environment hosted on <strong>Azure (Standard B2als_v2)</strong> running
+            <strong> Ubuntu Server 24.04 LTS</strong>.
           </p>
           <p className="text-zinc-400 text-sm leading-relaxed">
-            It manages internal DNS via Active Directory, routing traffic through
-            <strong>Fortinet/OpnSense</strong> firewalls to Dockerized workloads.
+            Accessible via <code>lab.ayodejib.dev</code>, it serves as a sandboxed
+            playground for testing Docker containers before production deployment.
           </p>
         </div>
       </div>
@@ -142,12 +142,12 @@ const items: Item[] = [
             Internal Documentation
           </h4>
           <p className="text-blue-500 font-mono text-xs mt-1 uppercase">
-            Next.js • Nginx Proxy Manager • Portainer
+            Next.js • Fumadocs • Nginx Proxy Manager
           </p>
         </header>
         <p className="text-zinc-400 text-sm mt-4">
           A centralized documentation hub for internal tools and server configurations,
-          deployed behind a reverse proxy.
+          built with <strong>Fumadocs</strong> and deployed behind a reverse proxy.
         </p>
       </div>
     ),
