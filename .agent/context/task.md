@@ -1,0 +1,38 @@
+# Systems Command Center - Improvement Plan
+
+- [x] Explore existing codebase to understand current implementation <!-- id: 0 -->
+- [x] Brainstorm and propose specific enhancements <!-- id: 4 -->
+- [x] Create Implementation Plan <!-- id: 5 -->
+- [x] Execute approved changes (Phase 1) <!-- id: 6 -->
+- [x] Refine and Optimize (Phase 2) <!-- id: 12 -->
+- [x] Refactor to Aceternity UI & Fix Bugs (Phase 3) <!-- id: 26 -->
+- [/] Final UI Polish & Logic Adjustments (Phase 4) <!-- id: 43 -->
+  - [x] **Loading Overlay** <!-- id: 44 -->
+  - [x] **Timeline Restructuring** <!-- id: 45 -->
+  - [/] **Tech Stack Redesign** <!-- id: 46 -->
+    - [x] Create `TechStackCard` using user-provided code.
+    - [x] Fix Hydration Error in `Sparkles`. (**NEW**)
+    - [x] Merge visually with Bento Grid (remove distinct card style). (**NEW**)
+    - [x] **Reinvent: Tech Stack Dashboard** (Command Center Style). (**NEW**)
+      - [x] Update icons to MongoDB/Redis.
+  - [x] **Project Cards** <!-- id: 47 -->
+  - [x] **Hero Section**
+    - [x] Implement `PointerHighlight` on "Ayodeji B."
+  - [x] **Hero Updates** (**NEW**)
+    - [x] Implement `EncryptedText` on "Ayodeji B.".
+    - [x] Implement `HeroHighlight` on subtitle.
+    - [x] Add Profile Image Placeholder.
+  - [x] **System Logs Polish** (**NEW**)
+    - [x] Color-code log types (PUBLISH, DEPLOY, etc.).
+  - [x] **Projects Grid Refactor** (Major) (**NEW**)
+    - [x] Remove Modals.
+    - [x] Implement Master-Detail transition (Left Sidebar + Right Content).
+  - [x] **Final Polish** (**NEW**)
+    - [x] Fix EncryptedText timing (hidden by overlay).
+    - [x] Fix Grid Master-Detail layout jitter (fixed widths).
+  - [x] **Final Polish** (**NEW**)
+    - [x] Fix EncryptedText timing (hidden by overlay).
+    - [x] Fix Grid Master-Detail layout jitter (fixed widths).
+    - [x] Fix Page Prop Mismatch (Remove `onModalStateChange`).
+    - [x] Fix Master-Detail Mobile Responsiveness (Vertical Stack).
+- [x] Verify changes <!-- id: 7 -->
