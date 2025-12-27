@@ -20,7 +20,7 @@ export function HeroSection() {
             className={cn("font-bold", "text-zinc-400 text-sm md:text-base")}
           >
             <div className="mt-4">
-              <div className=" text-2xl leading-snug tracking-wide">
+              <div className="text-2xl leading-snug tracking-wide">
                 Merging modern frontend architecture with production-grade
                 systems engineering.
               </div>

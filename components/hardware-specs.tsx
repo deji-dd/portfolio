@@ -42,7 +42,7 @@ export function HardwareSpecs() {
                     <span className="text-zinc-300 truncate">64GB Standard SSD (LRS)</span>
 
                     <span className="text-zinc-500">Region</span>
-                    <span className="text-zinc-300 truncate">West Europe (Holland)</span>
+                    <span className="text-zinc-300 truncate">South Africa (North)</span>
                 </div>
 
                 {/* Color Palette visualization like real neofetch */}

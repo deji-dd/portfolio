@@ -138,7 +138,7 @@ const items: Item[] = [
     content: (
       <div className="flex flex-col gap-6 p-6 h-full overflow-y-auto">
         <header>
-          <h4 className="text-3xl font-bold text-white tracking-tighter">
+          <h4 className="text-3xl font-bold text-white tracking-tighter uppercase">
             Internal Documentation
           </h4>
           <p className="text-blue-500 font-mono text-xs mt-1 uppercase">

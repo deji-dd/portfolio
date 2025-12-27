@@ -1,6 +1,3 @@
-"use client";
-
-
 export function AboutSection() {
     return (
         <section className="relative w-full py-10">

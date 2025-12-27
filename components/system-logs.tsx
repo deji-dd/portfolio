@@ -45,7 +45,7 @@ export function SystemLogs() {
             Transition to Systems Administration. Managed on-premise infrastructure at BT Technologies.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <LogEntry text="MOUNT: Joined BT Technologies (SysAdmin)" />
+            <LogEntry text="INIT: Joined BT Technologies (SysAdmin)" />
             <LogEntry text="INIT: Physical Server Management" />
             <LogEntry text="BUILD: Internal Invoice Tracker (v1)" />
           </div>
