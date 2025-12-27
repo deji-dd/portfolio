@@ -1,7 +1,5 @@
 "use client";
 
-import { motion } from "motion/react";
-import { cn } from "@/lib/utils";
 
 export function AboutSection() {
     return (
@@ -40,7 +38,7 @@ export function AboutSection() {
                 <div className="space-y-6 text-zinc-400 leading-relaxed text-sm md:text-base">
                     <p>
                         I am a Software Engineer based in Lagos, Nigeria, specializing in the
-                        intersection of frontend architecture and backend systems. I don't
+                        intersection of frontend architecture and backend systems. I don&apos;t
                         just build websites; I engineer comprehensive digital solutions that
                         stand the test of scale.
                     </p>
@@ -54,7 +52,7 @@ export function AboutSection() {
                     <p>
                         Currently, I am focused on building accessible, high-performance
                         applications that solve real business problems, while maintaining a
-                        personal "Cloud Lab" to experiment with bleeding-edge technologies.
+                        personal &quot;Cloud Lab&quot; to experiment with bleeding-edge technologies.
                     </p>
                 </div>
             </div>

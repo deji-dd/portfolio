@@ -1,3 +1,5 @@
+# Pull Request Description
+
 ## Description
 
 Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context.
@@ -9,7 +11,7 @@ Please include a summary of the change and which issue is fixed. Please also inc
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] Documentation update
 
-## Checklist:
+## Checklist
 
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my own code
