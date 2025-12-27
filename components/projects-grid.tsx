@@ -97,7 +97,7 @@ const items: Item[] = [
         <h4 className="text-3xl font-bold text-white tracking-tighter uppercase mb-6">
           Command Center Stack
         </h4>
-        <div className="flex-1 min-h-[400px]">
+        <div className="flex-1 min-h-100">
           <TechStackDisplay />
         </div>
       </div>
@@ -192,7 +192,7 @@ export function ProjectsGrid() {
                   as="div"
                 >
                   {/* Header */}
-                  <div className="flex-1 w-full min-h-[6rem] rounded-xl overflow-hidden border border-white/5 bg-zinc-900/50 relative">
+                  <div className="flex-1 w-full min-h-24 rounded-xl overflow-hidden border border-white/5 bg-zinc-900/50 relative">
                     {/* Add pointer-events-none to children in grid view to prevent interaction conflicts */}
                     <div className="pointer-events-none h-full w-full">
                       {item.header}
@@ -216,9 +216,9 @@ export function ProjectsGrid() {
           </BentoGrid>
         ) : (
           /* Master-Detail View */
-          <div className="max-w-6xl pe-2 md:pe-0 mx-auto h-auto md:h-[600px] flex flex-col md:flex-row gap-4">
+          <div className="max-w-6xl pe-2 md:pe-0 mx-auto h-auto md:h-150 flex flex-col md:flex-row gap-4">
             {/* Left Sidebar (List) */}
-            <div className="w-full md:w-[350px] shrink-0 flex flex-col gap-2 overflow-y-auto pr-2 max-h-full">
+            <div className="w-full md:w-87.5 shrink-0 flex flex-col gap-2 overflow-y-auto pr-2 max-h-full">
               <motion.button
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -271,10 +271,10 @@ export function ProjectsGrid() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
               transition={{ delay: 0.2 }}
-              className="w-[350px] md:w-[650px] shrink-0 bg-black border border-white/10 rounded-2xl overflow-hidden relative min-h-[500px]"
+              className="w-87.5 md:w-162.5 shrink-0 bg-black border border-white/10 rounded-2xl overflow-hidden relative min-h-125"
             >
               {/* Scanline overlay for detail view */}
-              <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-[1] bg-[length:100%_2px,3px_100%] opacity-20" />
+              <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-1 bg-size-[100%_2px,3px_100%] opacity-20" />
 
               <div className="relative z-10 h-full">
                 {selectedItem?.content}

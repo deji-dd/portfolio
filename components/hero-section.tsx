@@ -16,10 +16,13 @@ export function HeroSection() {
         </div>
 
         <div className="max-w-lg">
-          <div className={cn("font-bold", "text-zinc-400 text-sm md:text-base")}>
+          <div
+            className={cn("font-bold", "text-zinc-400 text-sm md:text-base")}
+          >
             <div className="mt-4">
               <div className=" text-2xl leading-snug tracking-wide">
-                I build the software glue that connects modern web interfaces with robust enterprise infrastructure.
+                I build the software glue that connects modern web interfaces
+                with robust enterprise infrastructure.
               </div>
             </div>
           </div>
@@ -36,9 +39,9 @@ export function HeroSection() {
       </div>
 
       <div className="relative flex justify-center md:justify-end">
-        <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-2xl overflow-hidden border border-white/10 bg-zinc-900/50 flex items-center justify-center group">
+        <div className="relative size-48 md:size-72 rounded-2xl overflow-hidden border border-white/10 bg-zinc-900/50 flex items-center justify-center group">
           {/* Placeholder UI */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 to-transparent opacity-50" />
+          <div className="absolute inset-0 bg-linear-to-tr from-cyan-500/10 to-transparent opacity-50" />
           <IconUserCircle className="w-20 h-20 text-zinc-700 group-hover:text-zinc-500 transition-colors" />
           <div className="absolute bottom-2 left-2 text-[10px] font-mono text-zinc-600">
             IMG_NOT_FOUND
