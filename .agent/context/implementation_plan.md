@@ -1,104 +1,56 @@
-# implementation_plan.md
+# Content & Workflow Upgrade Plan
 
-## Goal
+## Goal Description
 
-Refine the UI/UX based on specific user feedback:
+We will improve the portfolio's content by filling in placeholders, expanding description text to be more professional and "System Command Center" themed, and establishing a proper GitHub contribution workflow with issue and PR templates.
 
-1.  **Project Cards**: Adopt Aceternity's **Hover Border Gradient** effect.
-2.  **Tech Stack**: Use the user-provided **Animated Skeleton Card** code.
-3.  **Loading Overlay**: Implement immediate-start logic independent of component load, waiting for window load to finish.
-4.  **Timeline**: Move to a standalone section.
+## User Review Required
+
+> [!IMPORTANT] > **Missing About Page**: The previous task list mentioned an About page, but it does not exist in the `app` directory. I propose creating a dedicated `app/about/page.tsx` or integrating a rich "About Me" section into the main page. (Plan assumes integration into main page for now to keep the single-page app feel unless requested otherwise).
+> **"IMG_NOT_FOUND"**: The Hero section has a deliberate "IMG_NOT_FOUND" text. Do we want to keep this as a stylistic choice (glitch aesthetic) or replace it with a real image path? I will default to keeping the _aesthetic_ but maybe refining the text to "Identity Redacted" or similar if no image is provided.
 
 ## Proposed Changes
 
-### [New Components]
+### GitHub Workflow
 
-#### [NEW] [hover-border-gradient.tsx](file:///Users/mac/Desktop/cloud-lab/portfolio/components/ui/hover-border-gradient.tsx)
+#### [NEW] `.github/ISSUE_TEMPLATE/bug_report.md`
 
-- Implement Aceternity's `HoverBorderGradient` component logic.
-- This creates a gradient border that follows the mouse or highlights on hover.
+- Standardized bug reporting format.
 
-#### [NEW] [tech-stack-card.tsx](file:///Users/mac/Desktop/cloud-lab/portfolio/components/ui/tech-stack-card.tsx)
+#### [NEW] `.github/ISSUE_TEMPLATE/feature_request.md`
 
-- **Exact Implementation** of the user's provided code (`CardDemo`, `Skeleton`, `Sparkles`, etc.).
-- Refactor imports to match project structure.
+- Template for proposing new features.
 
-#### [NEW] [tech-stack-display.tsx](file:///Users/mac/Desktop/cloud-lab/portfolio/components/ui/tech-stack-display.tsx)
+#### [NEW] `.github/pull_request_template.md`
 
-- **Reinvention**: A "Command Center" style dashboard for the tech stack.
-- **Visuals**: Grid of "server modules", status lights, uptime counters.
-- **Animation**: Scanning effect, blinking indicators.
+- Checklist for PRs (Tests, Linting, Screenshots).
 
-#### [NEW] [encrypted-text.tsx](file:///Users/mac/Desktop/cloud-lab/portfolio/components/ui/encrypted-text.tsx)
+### Content Improvements
 
-- Aceternity's "HyperText" or "Encrypted" effect.
-- Characters cycle/scramble before settling on the final text.
-- Usage: Replace "Ayodeji B." static text.
+#### [MODIFY] [hero-section.tsx](file:///home/deji/repos/portfolio/components/hero-section.tsx)
 
-#### [NEW] [hero-highlight.tsx](file:///Users/mac/Desktop/cloud-lab/portfolio/components/ui/hero-highlight.tsx)
+- Refine the "IMG_NOT_FOUND" placeholder to be more "Cyberpunk/Terminal" styled (e.g., `[IDENTITY_REDACTED]`) if no real image is available.
+- Enhance the bio text to be more punchy.
 
-- Background highlight effect for the subtitle.
+#### [MODIFY] [system-logs.tsx](file:///home/deji/repos/portfolio/components/system-logs.tsx)
 
-#### [MODIFY] [hero-section.tsx](file:///Users/mac/Desktop/cloud-lab/portfolio/components/hero-section.tsx)
+- Add more granular "career milestones" if available, or just polish the existing ones to sound more "technical" (e.g. "Mainframe Initialization" instead of "Site Creation").
 
-- Integrate `EncryptedText` and `HeroHighlight`.
-- Add a circular/rounded-square image placeholder (right aligned or integrated).
+#### [NEW] [about-section.tsx](file:///home/deji/repos/portfolio/components/about-section.tsx)
 
-### [Overlay Logic]
+- Create a new component for extended bio/about information, possibly to be added to the main page scroll.
 
-#### [MODIFY] [loading-overlay.tsx](file:///Users/mac/Desktop/cloud-lab/portfolio/components/ui/loading-overlay.tsx)
+#### [MODIFY] [page.tsx](file:///home/deji/repos/portfolio/app/page.tsx)
 
-- `useState` for loading state starts `true`.
-- `useEffect` starts interval immediately (0ms delay).
-- `useEffect` listens for `window.onload`.
-- Loader only clears when `animationComplete && pageLoaded`.
-
-### [Page Structure]
-
-#### [MODIFY] [projects-grid.tsx](file:///Users/mac/Desktop/cloud-lab/portfolio/components/projects-grid.tsx)
-
-- Replace `BentoGridItem` wrappers with `HoverBorderGradient` wrappers (as the card container).
-- Remove `SystemLogs` and `StackCloud`.
-
-#### [MODIFY] [page.tsx](file:///Users/mac/Desktop/cloud-lab/portfolio/app/page.tsx)
-
-- **Structure**:
-  1.  Hero
-  2.  `ProjectsGrid` (with Hover Border Gradient Cards)
-  3.  `SystemLogs` (Timeline - Standalone)
-  4.  `ProjectsGrid` (with Hover Border Gradient Cards)
-  5.  `SystemLogs` (Timeline - Standalone)
-  6.  `TechStack` (New Tech Stack Display - Standalone or Card)
-  - Replace `TechStackCard` contents with `TechStackDisplay`.
-
-### [Refinement Phase]
-
-#### [MODIFY] [encrypted-text.tsx](file:///Users/mac/Desktop/cloud-lab/portfolio/components/ui/encrypted-text.tsx)
-
-- Add `delay` prop to start the scrambling effect _after_ the loading overlay has likely finished (approx 3-4s).
-
-#### [MODIFY] [projects-grid.tsx](file:///Users/mac/Desktop/cloud-lab/portfolio/components/projects-grid.tsx)
-
-- **Layout Stability**: Enforce fixed width for the sidebar (e.g., `w-80 shrink-0`) and `min-w-0` for the main content to prevent flexbox jitter during content swaps.
-
-### [Grid Refactor]
-
-#### [MODIFY] [projects-grid.tsx](file:///Users/mac/Desktop/cloud-lab/portfolio/components/projects-grid.tsx)
-
-- **State**: Add `selectedProject` state.
-- **Layout**:
-  - Default: Standard Grid.
-  - Selected:
-    - `AnimatePresence` layout transition.
-    - The Selected Card becomes a "Sidebar Item" on the Left (or the whole list moves left/shrinks).
-    - A "Details Pane" expands on the Right.
-- **Animation**: Use `layoutId` for smooth shared element transition.
-- **Remove**: `AnimatedModal` wrapping.
+- Import and add `AboutSection`.
 
 ## Verification Plan
 
+### Automated
+
+- None (Content changes).
+
 ### Manual Verification
 
-- **Overlay**: Reload page, verify text starts instantly.
-- **Cards**: Verify hover border gradient animation works.
-- **Tech Stack**: Verify sparkles and skeleton animation match sample.
+- **Visual Check**: Verify the `HeroSection` looks good.
+- **Workflow Check**: Verify `.github` folder structure is recognized by GitHub (requires pushing, but we can verify file existence).
