@@ -21,8 +21,8 @@ export function HeroSection() {
           >
             <div className="mt-4">
               <div className=" text-2xl leading-snug tracking-wide">
-                I build the software glue that connects modern web interfaces
-                with robust enterprise infrastructure.
+                Architecting high-performance systems and resilient Next.js
+                applications for the modern web.
               </div>
             </div>
           </div>
@@ -33,7 +33,7 @@ export function HeroSection() {
             Lagos, NG
           </span>
           <span className="text-[10px] font-mono px-3 py-1 rounded-full border border-white/10 bg-white/5 text-zinc-500 uppercase">
-            Available for Architecture
+            System Online
           </span>
         </div>
       </div>
@@ -44,7 +44,7 @@ export function HeroSection() {
           <div className="absolute inset-0 bg-linear-to-tr from-cyan-500/10 to-transparent opacity-50" />
           <IconUserCircle className="w-20 h-20 text-zinc-700 group-hover:text-zinc-500 transition-colors" />
           <div className="absolute bottom-2 left-2 text-[10px] font-mono text-zinc-600">
-            IMG_NOT_FOUND
+            [IDENTITY_REDACTED]
           </div>
 
           {/* Corner Accents */}

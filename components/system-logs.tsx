@@ -27,14 +27,13 @@ export function SystemLogs() {
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            Initial deployments and freelance growth.
+            Foundation phase: Building the core infrastructure and initial client deployments.
           </p>
-          <div className="grid grid-cols-2 gap-4">
-            <LogEntry text="INIT: Ginoba Foundation Site Creation" />
-            <LogEntry text="PUBLISH: Ginoba Foundation Site" />
-            <LogEntry text="INIT: Glorious Eagles Site Creation" />
-            <LogEntry text="PUBLISH: Glorious Eagles Site" />
-
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <LogEntry text="INIT: Deji.dev Network Initialization" />
+            <LogEntry text="PUBLISH: Ginoba Foundation Portal" />
+            <LogEntry text="MOUNT: Private Cloud Storage Cluster" />
+            <LogEntry text="DEPLOY: Glorious Eagles Platform" />
           </div>
         </div>
       ),
@@ -44,11 +43,13 @@ export function SystemLogs() {
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            Established core infrastructure and expanded client projects.
+            Expansion phase: Scaling systems and integrating complex enterprise modules.
           </p>
-          <div className="grid grid-cols-2 gap-4">
-            <LogEntry text="PUBLISH: Mental Health Co Landing Page" />
-            <LogEntry text="DEPLOY: ERP System Mgmt" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <LogEntry text="PUBLISH: Mental Health Co. Landing Page" />
+            <LogEntry text="BUILD: ERPNext Custom HRMS Module" />
+            <LogEntry text="DEPLOY: Legacy System Migration (v2)" />
+            <LogEntry text="MOUNT: Docker Swarm Cluster" />
           </div>
         </div>
       ),
@@ -58,13 +59,13 @@ export function SystemLogs() {
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-            Optimizing the Cloud Lab and deploying corporate tools.
+            Optimization phase: Automated pipelines and high-performance architecture.
           </p>
-          <div className="grid grid-cols-2 gap-4">
-            <LogEntry text="BUILD: Corporate Invoice Tracker" />
-            <LogEntry text="PUBLISH: BT Technologies Site" />
-            <LogEntry text="MOUNT: Custom Azure VPS" />
-            <LogEntry text="INIT: Portfolio Deployed" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <LogEntry text="BUILD: Corporate Invoice Intelligence System" />
+            <LogEntry text="PUBLISH: BT Technologies Corporate Site" />
+            <LogEntry text="MOUNT: Azure Hybrid Cloud Environment" />
+            <LogEntry text="INIT: System Command Center (Portfolio v3)" />
           </div>
         </div>
       ),
