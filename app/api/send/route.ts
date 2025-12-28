@@ -29,10 +29,22 @@ const contactSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    // Rate Limiting
-    const ip = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
+    // Robust IP Extraction for Rate Limiting
+    let ip = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
+
+    // Handle multiple IPs in x-forwarded-for (take the first one)
+    if (ip.includes(",")) {
+      ip = ip.split(",")[0].trim();
+    }
+
+    // Prioritize Cloudflare or Real-IP headers if they exist
+    const cfIp = req.headers.get("cf-connecting-ip");
+    const realIp = req.headers.get("x-real-ip");
+    if (cfIp) ip = cfIp;
+    else if (realIp) ip = realIp;
+
     try {
-      await limiter.check(NextResponse.next(), LIMIT_PER_HOUR, ip);
+      await limiter.check(LIMIT_PER_HOUR, ip);
     } catch {
       return NextResponse.json(
         { error: "Rate limit exceeded. Please try again later." },
@@ -52,15 +64,26 @@ export async function POST(req: NextRequest) {
 
     const { email, message } = result.data;
 
-    // Sanitize email for subject to prevent header injection (though Zod covers most cases)
+    // Sanitize email: Remove newlines/carriage returns to prevent header injection
     const safeEmail = email.replace(/[\r\n]/g, "");
+
+    // Sanitize message: Remove null bytes and other non-printable control characters
+    // (keeping \n, \r, \t allowed)
+    // Range \x00-\x08 matches null to backspace
+    // Range \x0B-\x0C matches vertical tab and form feed
+    // Range \x0E-\x1F matches shift out/in and other commands
+    // \x7F is delete
+    const safeMessage = message.replace(
+      /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g,
+      ""
+    );
 
     const data = await resend.emails.send({
       from: "Portfolio Contact <contact@mail.ayodejib.dev>",
       to: ["ayodeji@ayodejib.dev"],
-      replyTo: email,
+      replyTo: safeEmail,
       subject: `New Signal from Portfolio: ${safeEmail}`,
-      text: `Sender: ${email}\n\nMessage:\n${message}`,
+      text: `Sender: ${safeEmail}\n\nMessage:\n${safeMessage}`,
     });
 
     if (data.error) {

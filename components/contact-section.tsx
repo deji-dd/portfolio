@@ -22,8 +22,12 @@ export function ContactSection() {
 
   const onContinue = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (initialMessage.trim().length > 0) {
+    if (initialMessage.trim().length >= 10) {
       setSubmitted(true);
+    } else {
+      toast.error("Message too short", {
+        description: "Please enter at least 10 characters to initialize connection."
+      });
     }
   };
 
@@ -166,6 +170,9 @@ export function ContactSection() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
+                    aria-label={isSubmitting ? "Transmitting signal, please wait" : "Transmit signal"}
+                    aria-busy={isSubmitting}
+                    aria-disabled={isSubmitting}
                     className="w-full bg-sky-500 text-black font-bold py-3 rounded-lg hover:bg-sky-400 transition-all text-sm uppercase tracking-widest flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-wait"
                   >
                     {isSubmitting ? (

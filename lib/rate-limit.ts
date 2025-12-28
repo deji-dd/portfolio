@@ -12,18 +12,13 @@ export default function rateLimit(options?: Options) {
   });
 
   return {
-    check: (res: Response, limit: number, token: string) =>
+    check: (limit: number, token: string) =>
       new Promise<void>((resolve, reject) => {
-        const tokenCount = (tokenCache.get(token) as number[]) || [0];
-        if (tokenCount[0] === 0) {
-          tokenCache.set(token, [1]);
-        } else {
-          tokenCount[0] += 1;
-          tokenCache.set(token, tokenCount);
-        }
-        const currentUsage = tokenCount[0];
-        const isRateLimited = currentUsage >= limit;
-        if (isRateLimited) {
+        const tokenCount = (tokenCache.get(token) as number) || 0;
+        const currentUsage = tokenCount + 1;
+        tokenCache.set(token, currentUsage);
+
+        if (currentUsage > limit) {
           reject();
         } else {
           resolve();
