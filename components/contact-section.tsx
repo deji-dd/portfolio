@@ -44,7 +44,26 @@ export function ContactSection() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Transmission failed");
+        let errorMessage = "Transmission failed";
+
+        if (typeof data.error === "string") {
+          errorMessage = data.error;
+        } else if (data.error && typeof data.error === "object") {
+          // Handle Resend error object or other objects
+          errorMessage = data.error.message || JSON.stringify(data.error);
+        }
+
+        // Append validation details if available
+        if (data.details && typeof data.details === "object") {
+          const fieldErrors = Object.values(data.details.fieldErrors || {})
+            .flat()
+            .join(", ");
+          if (fieldErrors) {
+            errorMessage += `: ${fieldErrors}`;
+          }
+        }
+
+        throw new Error(errorMessage);
       }
 
       toast.success("Signal Transmitted Successfully", {
