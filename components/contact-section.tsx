@@ -2,11 +2,16 @@
 import React, { useState } from "react";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 import { motion, AnimatePresence } from "motion/react";
-import { IconArrowLeft, IconTerminal2 } from "@tabler/icons-react";
+import { IconArrowLeft, IconTerminal2, IconLoader2 } from "@tabler/icons-react";
+import { toast } from "sonner";
 
 export function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
   const [initialMessage, setInitialMessage] = useState("");
+
+  // Form State
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const placeholders = [
     "How can I reach you?",
@@ -15,11 +20,49 @@ export function ContactSection() {
     "Initialize a collaboration...",
   ];
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onContinue = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Logic for capturing the message from the Vanish input is handled via onChange
     if (initialMessage.trim().length > 0) {
       setSubmitted(true);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!email || !initialMessage) return;
+
+    setIsSubmitting(true);
+    const loadingToast = toast.loading("Establishing secure connection...");
+
+    try {
+      const res = await fetch("/api/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, message: initialMessage }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Transmission failed");
+      }
+
+      toast.success("Signal Transmitted Successfully", {
+        id: loadingToast,
+        description: "I will respond to your frequency shortly.",
+      });
+
+      // Reset form
+      setInitialMessage("");
+      setEmail("");
+      setSubmitted(false);
+    } catch (error) {
+      toast.error("Transmission Error", {
+        id: loadingToast,
+        description: error instanceof Error ? error.message : "Packet loss detected.",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -47,7 +90,7 @@ export function ContactSection() {
                 placeholders={placeholders}
                 initialValue={initialMessage}
                 onChange={(e) => setInitialMessage(e.target.value)}
-                onSubmit={onSubmit}
+                onSubmit={onContinue}
               />
               <p className="text-center text-[10px] font-mono text-zinc-600 mt-4 uppercase tracking-[0.2em]">
                 Secure Line: 256-bit End-to-End Encryption
@@ -75,14 +118,14 @@ export function ContactSection() {
                     <p className="text-zinc-500 text-[10px] font-mono uppercase mb-1">
                       Payload:
                     </p>
-                    <p className="text-sky-400/80 text-xs font-mono italic leading-tight">
+                    <p className="text-sky-400/80 text-xs font-mono italic leading-tight line-clamp-3">
                       &quot;{initialMessage}&quot;
                     </p>
                   </div>
                 </div>
               </div>
 
-              <form className="space-y-5">
+              <form className="space-y-5" onSubmit={handleSubmit}>
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-mono flex justify-between">
                     <span>Return Address</span>
@@ -91,23 +134,36 @@ export function ContactSection() {
                   <input
                     required
                     type="email"
+                    name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     placeholder="engineer@company.com"
-                    className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-sky-500 transition-all placeholder:text-zinc-700"
+                    disabled={isSubmitting}
+                    className="w-full bg-black/60 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:ring-1 focus:ring-sky-500 transition-all placeholder:text-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
 
                 <div className="flex flex-col gap-3">
                   <button
                     type="submit"
-                    className="w-full bg-sky-500 text-black font-bold py-3 rounded-lg hover:bg-sky-400 transition-all text-sm uppercase tracking-widest flex items-center justify-center gap-2"
+                    disabled={isSubmitting}
+                    className="w-full bg-sky-500 text-black font-bold py-3 rounded-lg hover:bg-sky-400 transition-all text-sm uppercase tracking-widest flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-wait"
                   >
-                    Transmit Signal
+                    {isSubmitting ? (
+                      <>
+                        <IconLoader2 className="h-4 w-4 animate-spin" />
+                        Transmitting...
+                      </>
+                    ) : (
+                      "Transmit Signal"
+                    )}
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setSubmitted(false)}
-                    className="flex items-center justify-center gap-2 text-[10px] text-zinc-600 hover:text-zinc-400 uppercase tracking-widest transition-colors py-2"
+                    disabled={isSubmitting}
+                    className="flex items-center justify-center gap-2 text-[10px] text-zinc-600 hover:text-zinc-400 uppercase tracking-widest transition-colors py-2 disabled:opacity-50"
                   >
                     <IconArrowLeft className="h-3 w-3" />
                     Edit Payload
