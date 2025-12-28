@@ -20,7 +20,7 @@ export function ContactSection() {
     "Initialize a collaboration...",
   ];
 
-  const onContinue = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleInitialSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (initialMessage.trim().length >= 10) {
       setSubmitted(true);
@@ -113,7 +113,7 @@ export function ContactSection() {
                 placeholders={placeholders}
                 initialValue={initialMessage}
                 onChange={(e) => setInitialMessage(e.target.value)}
-                onSubmit={onContinue}
+                onSubmit={handleInitialSubmit}
               />
               <p className="text-center text-[10px] font-mono text-zinc-600 mt-4 uppercase tracking-[0.2em]">
                 Secure Line: 256-bit End-to-End Encryption

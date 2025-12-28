@@ -14,9 +14,15 @@ export default function rateLimit(options?: Options) {
   return {
     check: (limit: number, token: string) =>
       new Promise<void>((resolve, reject) => {
-        const tokenCount = (tokenCache.get(token) as number) || 0;
+        // Fixed Window Counter strategy
+        // This ensures the count resets after the interval passes
+        const interval = options?.interval || 60000;
+        const windowStart = Math.floor(Date.now() / interval);
+        const key = `${token}:${windowStart}`;
+
+        const tokenCount = (tokenCache.get(key) as number) || 0;
         const currentUsage = tokenCount + 1;
-        tokenCache.set(token, currentUsage);
+        tokenCache.set(key, currentUsage);
 
         if (currentUsage > limit) {
           reject();

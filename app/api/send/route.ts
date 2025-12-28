@@ -64,7 +64,8 @@ export async function POST(req: NextRequest) {
 
     const { email, message } = result.data;
 
-    // Sanitize email: Remove newlines/carriage returns to prevent header injection
+    // Defense-in-depth: Sanitize email to prevent header injection
+    // (Even though Zod validates email format, this adds an extra safety layer)
     const safeEmail = email.replace(/[\r\n]/g, "");
 
     // Sanitize message: Remove null bytes and other non-printable control characters
@@ -94,7 +95,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    return NextResponse.json({ success: true, data });
+    // Return minimal success response to avoid leaking internal IDs or metadata
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Internal Contact API Error:", error);
     return NextResponse.json(
