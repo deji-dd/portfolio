@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
   IconTerminal2,
@@ -21,20 +21,30 @@ type Command = {
 export function CommandPalette() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [sessionKey, setSessionKey] = useState(0);
 
   // Toggle with Cmd+K or ESC
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
+        setSessionKey((prev) => prev + 1);
+        setQuery("");
         setIsOpen((open) => !open);
       }
       if (e.key === "Escape") {
-        setIsOpen(false);
+        if (isOpen) {
+          e.preventDefault();
+          setIsOpen(false);
+        }
       }
     };
 
-    const openHandler = () => setIsOpen(true);
+    const openHandler = () => {
+      setSessionKey((prev) => prev + 1);
+      setQuery("");
+      setIsOpen(true);
+    };
 
     document.addEventListener("keydown", down);
     window.addEventListener("open-command-palette", openHandler);
@@ -43,14 +53,6 @@ export function CommandPalette() {
       document.removeEventListener("keydown", down);
       window.removeEventListener("open-command-palette", openHandler);
     };
-  }, []);
-
-  // Reset query when closed (after animation)
-  useEffect(() => {
-    if (!isOpen) {
-      const timeout = setTimeout(() => setQuery(""), 500);
-      return () => clearTimeout(timeout);
-    }
   }, [isOpen]);
 
   const commands: Command[] = [
@@ -86,9 +88,9 @@ export function CommandPalette() {
     },
   ];
 
-  const filteredCommands = commands.filter((cmd) =>
+  const filteredCommands = useMemo(() => commands.filter((cmd) =>
     cmd.title.toLowerCase().includes(query.toLowerCase())
-  );
+  ), [query]);
 
   const handleCommandSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -134,6 +136,7 @@ export function CommandPalette() {
               {/* Input Area */}
               <div className="p-8 pb-4">
                 <PlaceholdersAndVanishInput
+                  key={sessionKey}
                   placeholders={["Type a command...", "try 'goto /projects'", "try 'open github'"]}
                   onChange={handleChange}
                   onSubmit={handleCommandSubmit}
