@@ -18,7 +18,7 @@ export function HardwareSpecs({ compact = false }: { compact?: boolean }) {
                     </div>
                     <div>
                         <h3 className="text-white font-bold uppercase tracking-wider text-[10px] md:text-xs">Cloud Lab</h3>
-                        <p className="text-zinc-500 text-[10px]">lab.ayodejib.dev</p>
+                        <p className="text-zinc-500 text-[10px] md:text-[11px]">lab.ayodejib.dev</p>
                     </div>
                 </div>
 
