@@ -76,7 +76,7 @@ const items: Item[] = [
     id: "hardware",
     title: "Hardware Manifest",
     description: "Live infrastructure spec.",
-    header: <HardwareSpecs />,
+    header: <HardwareSpecs compact />,
     icon: <IconCpu className="h-4 w-4 text-neutral-500" />,
     className: "md:col-span-1",
     content: (
