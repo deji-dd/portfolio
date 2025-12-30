@@ -7,7 +7,7 @@ export function PageFooter() {
   const [currentYear, setCurrentYear] = useState(2025);
 
   useEffect(() => {
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentYear(new Date().getFullYear());
     const timer = setInterval(() => {
       const now = new Date();
