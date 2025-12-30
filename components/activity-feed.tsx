@@ -37,7 +37,7 @@ const LOG_TEMPLATES: ReadonlyArray<Pick<Log, "level" | "module" | "message">> =
     // --- BACKUP ---
     { level: "SUCCESS", module: "BACKUP", message: "Snapshot [daily-erp-db] uploaded to S3" },
     { level: "INFO", module: "BACKUP", message: "Incremental backup started for volume [vol-0a3f]" },
-    { level: "SUCCESS", module: "BACKUP", message: "Verified integrity of archive [config-2023.tar.gz]" },
+    { level: "SUCCESS", module: "BACKUP", message: "Verified integrity of archive [config-2025.tar.gz]" },
 
     // --- NETWORK ---
     { level: "INFO", module: "NETWORK", message: "Tailscale: Direct connection established to [macbook-pro]" },
