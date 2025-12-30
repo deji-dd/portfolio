@@ -4,10 +4,14 @@ import { useState, useEffect } from "react";
 export function PageFooter() {
   const [lagosTime, setLagosTime] = useState("");
   const [uptime, setUptime] = useState(0);
+  const [currentYear, setCurrentYear] = useState(2025);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCurrentYear(new Date().getFullYear());
     const timer = setInterval(() => {
       const now = new Date();
+
       const options: Intl.DateTimeFormatOptions = {
         timeZone: "Africa/Lagos",
         hour: "2-digit",
@@ -79,7 +83,7 @@ export function PageFooter() {
               <span className="text-zinc-400">ayodejib.dev</span>
             </div>
             <div className="h-3 w-px bg-white/10 hidden lg:block" />
-            <span className="text-zinc-400">© 2025 Ayodeji B.</span>
+            <span className="text-zinc-400">© {currentYear} Ayodeji B.</span>
           </div>
         </div>
       </div>
