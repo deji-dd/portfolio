@@ -22,12 +22,15 @@ export function CommandPalette() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
 
-  // Toggle with Cmd+K
+  // Toggle with Cmd+K or ESC
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setIsOpen((open) => !open);
+      }
+      if (e.key === "Escape") {
+        setIsOpen(false);
       }
     };
 
@@ -42,9 +45,12 @@ export function CommandPalette() {
     };
   }, []);
 
-  // Reset query when closed
+  // Reset query when closed (after animation)
   useEffect(() => {
-    if (!isOpen) setQuery("");
+    if (!isOpen) {
+      const timeout = setTimeout(() => setQuery(""), 500);
+      return () => clearTimeout(timeout);
+    }
   }, [isOpen]);
 
   const commands: Command[] = [
