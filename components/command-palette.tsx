@@ -20,6 +20,7 @@ type Command = {
 
 export function CommandPalette() {
   const [isOpen, setIsOpen] = useState(false);
+  const [query, setQuery] = useState("");
 
   // Toggle with Cmd+K
   useEffect(() => {
@@ -40,6 +41,11 @@ export function CommandPalette() {
       window.removeEventListener("open-command-palette", openHandler);
     };
   }, []);
+
+  // Reset query when closed
+  useEffect(() => {
+    if (!isOpen) setQuery("");
+  }, [isOpen]);
 
   const commands: Command[] = [
     {
@@ -74,16 +80,21 @@ export function CommandPalette() {
     },
   ];
 
+  const filteredCommands = commands.filter((cmd) =>
+    cmd.title.toLowerCase().includes(query.toLowerCase())
+  );
+
   const handleCommandSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Simulate processing time then close
-    setTimeout(() => {
+    // Execute first match if available
+    if (filteredCommands.length > 0) {
+      filteredCommands[0].action();
       setIsOpen(false);
-    }, 800);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    setQuery(e.target.value);
   };
 
   return (
@@ -127,22 +138,28 @@ export function CommandPalette() {
               <div className="px-4 pb-4">
                 <div className="text-[10px] font-mono text-zinc-500 mb-2 px-2 uppercase tracking-wider">Available Commands</div>
                 <div className="space-y-1">
-                  {commands.map((cmd) => (
-                    <button
-                      key={cmd.id}
-                      onClick={() => {
-                        // Trigger pseudo-submit
-                        cmd.action();
-                        setIsOpen(false);
-                      }}
-                      className="w-full flex items-center gap-3 px-3 py-2 text-sm text-zinc-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors group font-mono"
-                    >
-                      <span className="opacity-50 group-hover:opacity-100 transition-opacity">
-                        {cmd.icon}
-                      </span>
-                      <span>{cmd.title}</span>
-                    </button>
-                  ))}
+                  {filteredCommands.length === 0 ? (
+                    <div className="px-3 py-4 text-center text-zinc-500 text-sm font-mono">
+                      No commands found.
+                    </div>
+                  ) : (
+                    filteredCommands.map((cmd) => (
+                      <button
+                        key={cmd.id}
+                        onClick={() => {
+                          // Trigger pseudo-submit
+                          cmd.action();
+                          setIsOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-zinc-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors group font-mono"
+                      >
+                        <span className="opacity-50 group-hover:opacity-100 transition-opacity">
+                          {cmd.icon}
+                        </span>
+                        <span>{cmd.title}</span>
+                      </button>
+                    ))
+                  )}
                 </div>
               </div>
             </div>
