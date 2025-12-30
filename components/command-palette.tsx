@@ -18,6 +18,39 @@ type Command = {
   action: () => void;
 };
 
+const commands: Command[] = [
+  {
+    id: "home",
+    title: "goto /home",
+    icon: <IconHome className="w-4 h-4" />,
+    action: () => window.scrollTo({ top: 0, behavior: "smooth" }),
+  },
+  {
+    id: "projects",
+    title: "goto /projects",
+    icon: <IconBriefcase className="w-4 h-4" />,
+    action: () => {
+      const el = document.getElementById("projects-grid");
+      el?.scrollIntoView({ behavior: "smooth" });
+    },
+  },
+  {
+    id: "contact",
+    title: "goto /contact",
+    icon: <IconMail className="w-4 h-4" />,
+    action: () => {
+      const el = document.getElementById("contact-section");
+      el?.scrollIntoView({ behavior: "smooth" });
+    },
+  },
+  {
+    id: "github",
+    title: "open github.com/deji-dd",
+    icon: <IconBrandGithub className="w-4 h-4" />,
+    action: () => window.open("https://github.com/deji-dd", "_blank"),
+  },
+];
+
 export function CommandPalette() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -55,38 +88,7 @@ export function CommandPalette() {
     };
   }, [isOpen]);
 
-  const commands: Command[] = [
-    {
-      id: "home",
-      title: "goto /home",
-      icon: <IconHome className="w-4 h-4" />,
-      action: () => window.scrollTo({ top: 0, behavior: "smooth" }),
-    },
-    {
-      id: "projects",
-      title: "goto /projects",
-      icon: <IconBriefcase className="w-4 h-4" />,
-      action: () => {
-        const el = document.getElementById("projects-grid");
-        el?.scrollIntoView({ behavior: "smooth" });
-      },
-    },
-    {
-      id: "contact",
-      title: "goto /contact",
-      icon: <IconMail className="w-4 h-4" />,
-      action: () => {
-        const el = document.getElementById("contact-section");
-        el?.scrollIntoView({ behavior: "smooth" });
-      },
-    },
-    {
-      id: "github",
-      title: "open github.com/deji-dd",
-      icon: <IconBrandGithub className="w-4 h-4" />,
-      action: () => window.open("https://github.com/deji-dd", "_blank"),
-    },
-  ];
+
 
   const filteredCommands = useMemo(() => commands.filter((cmd) =>
     cmd.title.toLowerCase().includes(query.toLowerCase())
