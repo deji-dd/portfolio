@@ -2,6 +2,8 @@
 
 
 export function ScanlineOverlay() {
+  if (process.env.NODE_ENV === "development") return null;
+
   return (
     <div className="fixed inset-0 pointer-events-none z-[100] overflow-hidden select-none">
       {/* Scanlines */}
