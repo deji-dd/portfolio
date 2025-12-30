@@ -8,47 +8,57 @@ type Log = {
   timestamp: string;
   level: "INFO" | "WARN" | "SUCCESS";
   message: string;
-  module: "ERP" | "DOCKER" | "SYSTEM" | "BACKUP";
+  module: "ERP" | "DOCKER" | "SYSTEM" | "BACKUP" | "NETWORK";
 };
 
 const LOG_TEMPLATES: ReadonlyArray<Pick<Log, "level" | "module" | "message">> =
   [
-    {
-      level: "INFO",
-      module: "DOCKER",
-      message: "Container [internal-docs] health check passed",
-    },
-    {
-      level: "SUCCESS",
-      module: "BACKUP",
-      message: "Snapshot [daily-erp-db] uploaded to S3",
-    },
-    {
-      level: "INFO",
-      module: "SYSTEM",
-      message: "Tailscale re-authentication successful (Node: MBP)",
-    },
-    {
-      level: "WARN",
-      module: "ERP",
-      message: "High latency detected on Worker_02 (142ms)",
-    },
-    {
-      level: "SUCCESS",
-      module: "SYSTEM",
-      message: "SSL Certificate auto-renewed (*.ayodeji.dev)",
-    },
-    {
-      level: "INFO",
-      module: "DOCKER",
-      message: "Pruning unused volumes... 420MB reclaimed",
-    },
+    // --- DOCKER ---
+    { level: "INFO", module: "DOCKER", message: "Container [frappe-worker-1] healthy (uptime: 4d 12h)" },
+    { level: "INFO", module: "DOCKER", message: "Image pull completed: frappe/erpnext:v15.10.0" },
+    { level: "SUCCESS", module: "DOCKER", message: "Volume cleanup: reclaimed 2.1GB space" },
+    { level: "WARN", module: "DOCKER", message: "High memory usage on [redis-cache] (82%)" },
+    { level: "INFO", module: "DOCKER", message: "Restarting service [mariadb] due to config change" },
+
+    // --- ERP / FRAPPE ---
+    { level: "SUCCESS", module: "ERP", message: "Background Job: Daily Payroll Process finished (0.4s)" },
+    { level: "INFO", module: "ERP", message: "HRMS: Employee sync completed for 142 records" },
+    { level: "WARN", module: "ERP", message: "Queue: High load on [default] queue (12 jobs pending)" },
+    { level: "INFO", module: "ERP", message: "Scheduler: Executing [process_deferred_accounting]" },
+    { level: "SUCCESS", module: "ERP", message: "Doctype [Salary Slip] schema updated" },
+
+    // --- SYSTEM / AZURE ---
+    { level: "INFO", module: "SYSTEM", message: "Kernel: Updated to 6.8.0-1009-azure" },
+    { level: "INFO", module: "SYSTEM", message: "Cron: Daily system usage report generated" },
+    { level: "WARN", module: "SYSTEM", message: "UFW: Blocked suspicious connection from 192.168.x.x" },
+    { level: "INFO", module: "SYSTEM", message: "Systemd: Reloading nginx configuration..." },
+    { level: "SUCCESS", module: "SYSTEM", message: "Azure Agent: VM Extension provisioned successfully" },
+
+    // --- BACKUP ---
+    { level: "SUCCESS", module: "BACKUP", message: "Snapshot [daily-erp-db] uploaded to S3" },
+    { level: "INFO", module: "BACKUP", message: "Incremental backup started for volume [vol-0a3f]" },
+    { level: "SUCCESS", module: "BACKUP", message: "Verified integrity of archive [config-2025.tar.gz]" },
+
+    // --- NETWORK ---
+    { level: "INFO", module: "NETWORK", message: "Tailscale: Direct connection established to [macbook-pro]" },
+    { level: "SUCCESS", module: "NETWORK", message: "Nginx: SSL cert renewed for *.ayodejib.dev" },
+    { level: "INFO", module: "NETWORK", message: "DNS: Propagating new records for lab.ayodejib.dev" },
+    { level: "WARN", module: "NETWORK", message: "Latency spike detected on interface [eth0] (+45ms)" },
   ];
 
 export function ActivityFeed() {
+  const lastLogIndexRef = useRef<number | null>(null);
+
   const generateLog = (id: number): Log => {
-    const template =
-      LOG_TEMPLATES[Math.floor(Math.random() * LOG_TEMPLATES.length)];
+    let randomIndex;
+    // Simple dedup: try to get a different index than the last one
+    do {
+      randomIndex = Math.floor(Math.random() * LOG_TEMPLATES.length);
+    } while (randomIndex === lastLogIndexRef.current && LOG_TEMPLATES.length > 1);
+
+    lastLogIndexRef.current = randomIndex;
+    const template = LOG_TEMPLATES[randomIndex];
+
     const now = new Date();
     return {
       id,
@@ -59,9 +69,7 @@ export function ActivityFeed() {
     };
   };
 
-  const [logs, setLogs] = useState<Log[]>(() =>
-    Array.from({ length: 3 }).map((_, i) => generateLog(i))
-  );
+  const [logs, setLogs] = useState<Log[]>([]);
   const [mounted, setMounted] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -69,6 +77,11 @@ export function ActivityFeed() {
   useEffect(() => {
     // eslint-disable-next-line
     setMounted(true);
+
+    // Generate initial logs
+    const initialLogs = Array.from({ length: 3 }).map((_, i) => generateLog(i));
+    setLogs(initialLogs);
+
     const interval = setInterval(() => {
       setLogs((prev) => {
         const newLog = generateLog(prev.length + Date.now());
@@ -115,7 +128,7 @@ export function ActivityFeed() {
                 <div className="min-w-12.5 text-zinc-600">{log.timestamp}</div>
                 <div className="flex-1 flex flex-col gap-0.5">
                   <div className="flex items-center gap-2">
-                    <span className={getLevelColor(log.level)}>
+                    <span className={getLogColor(log)}>
                       {log.module}
                     </span>
                     {log.level === "WARN" && (
@@ -141,8 +154,10 @@ export function ActivityFeed() {
   );
 }
 
-function getLevelColor(level: Log["level"]) {
-  switch (level) {
+function getLogColor(log: Log) {
+  if (log.module === "NETWORK") return "text-purple-400";
+
+  switch (log.level) {
     case "INFO":
       return "text-blue-400";
     case "WARN":
