@@ -17,14 +17,19 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const urlString = "https://ayodejib.dev";
+const imgString = "/og-image.png";
+const descString = "Systems Engineer & Next.js Architect building high-performance digital infrastructure."
+const titleString = "Ayodeji B. | Systems Architect"
+
 export const metadata: Metadata = {
   title: {
-    default: "Ayodeji B. | Systems Architect",
+    default: titleString,
     template: "%s | Ayodeji B.",
   },
   description:
-    "Systems Engineer & Next.js Architect building high-performance digital infrastructure.",
-  metadataBase: new URL("https://ayodejib.dev"),
+    descString,
+  metadataBase: new URL(urlString),
   keywords: [
     "Systems Engineer",
     "Next.js Architect",
@@ -35,19 +40,19 @@ export const metadata: Metadata = {
     "Cloud Infrastructure",
     "Software Engineering",
   ],
-  authors: [{ name: "Ayodeji B.", url: "https://ayodejib.dev" }],
+  authors: [{ name: "Ayodeji B.", url: urlString }],
   creator: "Ayodeji B.",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://ayodejib.dev",
+    url: urlString,
     siteName: "Ayodeji B. Portfolio",
-    title: "Ayodeji B. | Systems Architect",
+    title: titleString,
     description:
-      "Systems Engineer & Next.js Architect building high-performance digital infrastructure.",
+      descString,
     images: [
       {
-        url: "/og-image.png", // We might need to add this later, but good to have the entry
+        url: imgString,
         width: 1200,
         height: 630,
         alt: "Ayodeji B. Portfolio",
@@ -56,11 +61,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ayodeji B. | Systems Architect",
+    title: titleString,
     description:
-      "Systems Engineer & Next.js Architect building high-performance digital infrastructure.",
+      descString,
     creator: "@deji__dd",
-    images: ["/og-image.png"],
+    images: [imgString],
   },
   other: {
     "color-scheme": "dark",
