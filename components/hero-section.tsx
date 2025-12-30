@@ -3,13 +3,9 @@ import { IconUserCircle } from "@tabler/icons-react";
 import { useGlitch } from "react-powerglitch";
 
 export function HeroSection() {
-  const glitch = useGlitch({
+  const { ref: glitchRef } = useGlitch({
     playMode: "always",
     createContainers: true,
-    types: {
-      "background-color": false,
-      "background-image": false,
-    },
   });
 
   return (
@@ -53,7 +49,7 @@ export function HeroSection() {
 
       <div className="relative flex justify-center md:justify-end">
         <div
-          ref={glitch.ref}
+          ref={glitchRef}
           className="relative size-48 md:size-72 rounded-2xl overflow-hidden border border-white/10 bg-zinc-900/50 flex items-center justify-center group"
         >
           {/* Placeholder UI */}
