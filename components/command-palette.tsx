@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
   IconTerminal2,
@@ -18,19 +18,66 @@ type Command = {
   action: () => void;
 };
 
+const commands: Command[] = [
+  {
+    id: "home",
+    title: "goto /home",
+    icon: <IconHome className="w-4 h-4" />,
+    action: () => window.scrollTo({ top: 0, behavior: "smooth" }),
+  },
+  {
+    id: "projects",
+    title: "goto /projects",
+    icon: <IconBriefcase className="w-4 h-4" />,
+    action: () => {
+      const el = document.getElementById("projects-grid");
+      el?.scrollIntoView({ behavior: "smooth" });
+    },
+  },
+  {
+    id: "contact",
+    title: "goto /contact",
+    icon: <IconMail className="w-4 h-4" />,
+    action: () => {
+      const el = document.getElementById("contact-section");
+      el?.scrollIntoView({ behavior: "smooth" });
+    },
+  },
+  {
+    id: "github",
+    title: "open github.com/deji-dd",
+    icon: <IconBrandGithub className="w-4 h-4" />,
+    action: () => window.open("https://github.com/deji-dd", "_blank"),
+  },
+];
+
 export function CommandPalette() {
   const [isOpen, setIsOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [sessionKey, setSessionKey] = useState(0);
 
-  // Toggle with Cmd+K
+  // Toggle with Cmd+K or ESC
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
+        setSessionKey((prev) => prev + 1);
+        setQuery("");
         setIsOpen((open) => !open);
+      }
+      if (e.key === "Escape") {
+        if (isOpen) {
+          e.preventDefault();
+          setIsOpen(false);
+        }
       }
     };
 
-    const openHandler = () => setIsOpen(true);
+    const openHandler = () => {
+      setSessionKey((prev) => prev + 1);
+      setQuery("");
+      setIsOpen(true);
+    };
 
     document.addEventListener("keydown", down);
     window.addEventListener("open-command-palette", openHandler);
@@ -39,51 +86,25 @@ export function CommandPalette() {
       document.removeEventListener("keydown", down);
       window.removeEventListener("open-command-palette", openHandler);
     };
-  }, []);
+  }, [isOpen]);
 
-  const commands: Command[] = [
-    {
-      id: "home",
-      title: "goto /home",
-      icon: <IconHome className="w-4 h-4" />,
-      action: () => window.scrollTo({ top: 0, behavior: "smooth" }),
-    },
-    {
-      id: "projects",
-      title: "goto /projects",
-      icon: <IconBriefcase className="w-4 h-4" />,
-      action: () => {
-        const el = document.getElementById("projects-grid");
-        el?.scrollIntoView({ behavior: "smooth" });
-      },
-    },
-    {
-      id: "contact",
-      title: "goto /contact",
-      icon: <IconMail className="w-4 h-4" />,
-      action: () => {
-        const el = document.getElementById("contact-section");
-        el?.scrollIntoView({ behavior: "smooth" });
-      },
-    },
-    {
-      id: "github",
-      title: "open github.com/deji-dd",
-      icon: <IconBrandGithub className="w-4 h-4" />,
-      action: () => window.open("https://github.com/deji-dd", "_blank"),
-    },
-  ];
+
+
+  const filteredCommands = useMemo(() => commands.filter((cmd) =>
+    cmd.title.toLowerCase().includes(query.toLowerCase())
+  ), [query]);
 
   const handleCommandSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Simulate processing time then close
-    setTimeout(() => {
+    // Execute first match if available
+    if (filteredCommands.length > 0) {
+      filteredCommands[0].action();
       setIsOpen(false);
-    }, 800);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    setQuery(e.target.value);
   };
 
   return (
@@ -117,6 +138,7 @@ export function CommandPalette() {
               {/* Input Area */}
               <div className="p-8 pb-4">
                 <PlaceholdersAndVanishInput
+                  key={sessionKey}
                   placeholders={["Type a command...", "try 'goto /projects'", "try 'open github'"]}
                   onChange={handleChange}
                   onSubmit={handleCommandSubmit}
@@ -127,22 +149,28 @@ export function CommandPalette() {
               <div className="px-4 pb-4">
                 <div className="text-[10px] font-mono text-zinc-500 mb-2 px-2 uppercase tracking-wider">Available Commands</div>
                 <div className="space-y-1">
-                  {commands.map((cmd) => (
-                    <button
-                      key={cmd.id}
-                      onClick={() => {
-                        // Trigger pseudo-submit
-                        cmd.action();
-                        setIsOpen(false);
-                      }}
-                      className="w-full flex items-center gap-3 px-3 py-2 text-sm text-zinc-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors group font-mono"
-                    >
-                      <span className="opacity-50 group-hover:opacity-100 transition-opacity">
-                        {cmd.icon}
-                      </span>
-                      <span>{cmd.title}</span>
-                    </button>
-                  ))}
+                  {filteredCommands.length === 0 ? (
+                    <div className="px-3 py-4 text-center text-zinc-500 text-sm font-mono">
+                      No commands found.
+                    </div>
+                  ) : (
+                    filteredCommands.map((cmd) => (
+                      <button
+                        key={cmd.id}
+                        onClick={() => {
+                          // Trigger pseudo-submit
+                          cmd.action();
+                          setIsOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-zinc-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors group font-mono"
+                      >
+                        <span className="opacity-50 group-hover:opacity-100 transition-opacity">
+                          {cmd.icon}
+                        </span>
+                        <span>{cmd.title}</span>
+                      </button>
+                    ))
+                  )}
                 </div>
               </div>
             </div>
