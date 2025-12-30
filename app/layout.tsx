@@ -18,9 +18,50 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ayodeji B. | Systems Architect",
+  title: {
+    default: "Ayodeji B. | Systems Architect",
+    template: "%s | Ayodeji B.",
+  },
   description:
     "Systems Engineer & Next.js Architect building high-performance digital infrastructure.",
+  metadataBase: new URL("https://ayodejib.dev"),
+  keywords: [
+    "Systems Engineer",
+    "Next.js Architect",
+    "DevOps",
+    "React",
+    "TypeScript",
+    "TailwindCSS",
+    "Cloud Infrastructure",
+    "Software Engineering",
+  ],
+  authors: [{ name: "Ayodeji B.", url: "https://ayodejib.dev" }],
+  creator: "Ayodeji B.",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://ayodejib.dev",
+    siteName: "Ayodeji B. Portfolio",
+    title: "Ayodeji B. | Systems Architect",
+    description:
+      "Systems Engineer & Next.js Architect building high-performance digital infrastructure.",
+    images: [
+      {
+        url: "/og-image.png", // We might need to add this later, but good to have the entry
+        width: 1200,
+        height: 630,
+        alt: "Ayodeji B. Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ayodeji B. | Systems Architect",
+    description:
+      "Systems Engineer & Next.js Architect building high-performance digital infrastructure.",
+    creator: "@deji__dd",
+    images: ["/og-image.png"],
+  },
   other: {
     "color-scheme": "dark",
   },
