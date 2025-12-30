@@ -20,7 +20,8 @@ type LoadingOverlayProps = {
 };
 
 export function LoadingOverlay({ children }: LoadingOverlayProps) {
-  const [hide, setHide] = useState(false);
+  const isDev = process.env.NODE_ENV === "development";
+  const [hide, setHide] = useState(isDev);
   const [logs, setLogs] = useState<string[]>([BOOT_LOGS[0]]);
   const logsEndRef = useRef<HTMLDivElement>(null);
   const [isTypingComplete, setIsTypingComplete] = useState(false);
@@ -28,6 +29,8 @@ export function LoadingOverlay({ children }: LoadingOverlayProps) {
 
   // 1. Detect when page is fully loaded (images, scripts, etc.)
   useEffect(() => {
+    if (isDev) return;
+
     if (document.readyState === "complete") {
       setIsPageLoaded(true);
     } else {
@@ -35,10 +38,12 @@ export function LoadingOverlay({ children }: LoadingOverlayProps) {
       window.addEventListener("load", handleLoad);
       return () => window.removeEventListener("load", handleLoad);
     }
-  }, []);
+  }, [isDev]);
 
   // 2. Start typing IMMEDIATELY on mount (start from index 1)
   useEffect(() => {
+    if (isDev) return;
+
     let currentLogIndex = 1;
 
     const typeNextLog = () => {
@@ -62,7 +67,7 @@ export function LoadingOverlay({ children }: LoadingOverlayProps) {
     const timeout = setTimeout(typeNextLog, 200);
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [isDev]);
 
   // 3. Only hide when BOTH typing is done AND page is loaded
   useEffect(() => {
@@ -90,10 +95,10 @@ export function LoadingOverlay({ children }: LoadingOverlayProps) {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="fixed inset-0 z-[100] bg-black text-green-500 font-mono text-xs md:text-sm p-8 flex flex-col justify-end overflow-hidden cursor-none"
+            className="fixed inset-0 z-100 bg-black text-green-500 font-mono text-xs md:text-sm p-8 flex flex-col justify-end overflow-hidden cursor-none"
           >
             {/* Scanlines for loading screen specifically */}
-            <div className="absolute inset-0 z-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_50%,rgba(0,0,0,0.2)_50%)] bg-[length:100%_4px] pointer-events-none opacity-50" />
+            <div className="absolute inset-0 z-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_50%,rgba(0,0,0,0.2)_50%)] bg-size-[100%_4px] pointer-events-none opacity-50" />
 
             <div className="relative z-10 max-w-2xl w-full mx-auto pb-12">
               {logs.map((log, i) => (
