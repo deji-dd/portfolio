@@ -1,8 +1,13 @@
-"use client";
 import { cn } from "@/lib/utils";
 import { IconUserCircle } from "@tabler/icons-react";
+import { useGlitch } from "react-powerglitch";
 
 export function HeroSection() {
+  const { ref: glitchRef } = useGlitch({
+    playMode: "always",
+    createContainers: true,
+  });
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr] gap-8 items-center py-10">
       <div className="flex flex-col space-y-6">
@@ -43,7 +48,10 @@ export function HeroSection() {
       </div>
 
       <div className="relative flex justify-center md:justify-end">
-        <div className="relative size-48 md:size-72 rounded-2xl overflow-hidden border border-white/10 bg-zinc-900/50 flex items-center justify-center group">
+        <div
+          ref={glitchRef}
+          className="relative size-48 md:size-72 rounded-2xl overflow-hidden border border-white/10 bg-zinc-900/50 flex items-center justify-center group"
+        >
           {/* Placeholder UI */}
           <div className="absolute inset-0 bg-linear-to-tr from-cyan-500/10 to-transparent opacity-50" />
           <IconUserCircle className="w-20 h-20 text-zinc-700 group-hover:text-zinc-500 transition-colors" />
