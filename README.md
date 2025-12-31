@@ -25,7 +25,7 @@ A high-performance, immersive portfolio designed to reflect the identity of a **
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS, CSS Variables
 - **Animation**: Framer Motion, React PowerGlitch
-- **Icons**: Tabler Icons
+- **Icons**: Lucide (primary), React Icons, Tabler Icons
 - **Fonts**: Geist Sans & Geist Mono
 - **Forms**: React Hook Form (Custom implementation) + Resend API
 
