@@ -11,7 +11,7 @@
 
 A high-performance, immersive portfolio designed to reflect the identity of a **Systems Engineer**. This project eschews traditional portfolio layouts for a "System Interface" aesthetic—featuring command palettes, terminal logs, and hardware telemetry visualizations.
 
-## ⚡ Key Modules
+## Key Modules
 
 - **Command Palette**: A fully functional, keyboard-driven interface (`Cmd+K`) to navigate the system. Features memoized filtering and real-time search.
 - **Hardware Manifest**: A Bento Grid layout showcasing live infrastructure specs with compact visualizations.
@@ -19,7 +19,7 @@ A high-performance, immersive portfolio designed to reflect the identity of a **
 - **Glitch Effects**: Powered by `react-powerglitch` for that unstable, cyberpunk visual signature.
 - **Reduced Motion**: Automatically disables heavy animations in `development` mode to preserve developer sanity.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Framework**: Next.js 16.1.0 (App Router)
 - **Language**: TypeScript
@@ -29,7 +29,7 @@ A high-performance, immersive portfolio designed to reflect the identity of a **
 - **Fonts**: Geist Sans & Geist Mono
 - **Forms**: Custom form handling + Resend API
 
-## 🚀 Initialization
+## Initialization
 
 To boot this system locally:
 
@@ -61,7 +61,7 @@ To boot this system locally:
 
    Access the interface at `http://localhost:3000`.
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 ├── app/               # Next.js App Router
@@ -74,7 +74,7 @@ To boot this system locally:
 └── public/            # Static assets
 ```
 
-## 📄 License
+## License
 
 This project is open-source and available under the MIT License.
 
